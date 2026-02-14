@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jeblimaak Panel</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">Jeblimaak Panel</div>
+
+      <nav class="tabs">
+        <button class="tab active" data-tab="orders">Orders</button>
+        <button class="tab" data-tab="drivers">Drivers</button>
+        <button class="tab" data-tab="manual">Manual Order</button>
+        <button class="tab" data-tab="system">System</button>
+      </nav>
+
+      <div class="actions">
+        <select id="lang">
+          <option value="ar" selected>AR</option>
+          <option value="en">EN</option>
+        </select>
+        <button id="theme">🌙</button>
+      </div>
+    </header>
+
+    <main class="container">
+      <!-- ORDERS -->
+      <section id="orders" class="panel">
+        <div class="panel-head">
+          <h2>Orders</h2>
+          <input id="orderSearch" class="input" placeholder="بحث: رقم/اسم/هاتف/سائق" />
+        </div>
+
+        <div class="subtabs">
+          <button class="subtab active" data-status="WAITING">Waiting</button>
+          <button class="subtab" data-status="ACTIVE">Active</button>
+          <button class="subtab" data-status="COMPLETED">Completed</button>
+          <button class="subtab" data-status="CANCELED">Canceled</button>
+        </div>
+
+        <div id="ordersList" class="cards"></div>
+      </section>
+
+      <!-- DRIVERS -->
+      <section id="drivers" class="panel hidden">
+        <div class="panel-head">
+          <h2>Drivers</h2>
+          <div class="row">
+            <input id="driverName" class="input" placeholder="اسم السائق" />
+            <button id="addDriver" class="btn">Add</button>
+          </div>
+        </div>
+        <div id="driversList" class="cards"></div>
+      </section>
+
+      <!-- MANUAL -->
+      <section id="manual" class="panel hidden">
+        <h2>Manual Order</h2>
+        <div class="form">
+          <input id="cName" class="input" placeholder="Customer name" />
+          <input id="cPhone" class="input" placeholder="Phone" />
+          <input id="pickup" class="input" placeholder="Pickup" />
+          <input id="dropoff" class="input" placeholder="Dropoff" />
+
+          <label class="check">
+            <input id="hasReq" type="checkbox" />
+            <span>Has special request text</span>
+          </label>
+
+          <textarea id="reqText" class="input hidden" placeholder="Request text"></textarea>
+
+          <button id="createOrder" class="btn primary">Create Order</button>
+        </div>
+      </section>
+
+      <!-- SYSTEM -->
+      <section id="system" class="panel hidden">
+        <h2>System</h2>
+        <div class="form">
+          <p class="muted">System Reset يلغي الطلبات غير المكتملة ويصفّر الحالة (بدنا نخليه محمي).</p>
+          <input id="resetReason" class="input" placeholder="Reason for reset" />
+          <button id="resetBtn" class="btn danger">Reset System</button>
+        </div>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
