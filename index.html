@@ -1,1 +1,354 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <title>Jeblimaak Admin (Prototype)</title>
+  <link rel="stylesheet" href="./panel.css"/>
+</head>
+<body>
+  <!-- Lock screen -->
+  <div class="lock" id="lock">
+    <div class="lock-card">
+      <div class="lock-badge">Jeblimaak Admin</div>
+      <h1>Admin Locked</h1>
+      <p class="muted">Enter Admin Secret to open the panel (prototype).</p>
+
+      <div class="field">
+        <label>Admin Secret</label>
+        <input id="secretInput" class="input" type="password" placeholder="••••••••" autocomplete="current-password"/>
+      </div>
+
+      <div class="row">
+        <button class="btn primary" id="unlockBtn">Unlock</button>
+        <button class="btn" id="demoBtn" title="Use demo secret">Use Demo Secret</button>
+      </div>
+
+      <p class="hint muted">
+        Tip: demo secret is <code>demo123</code> (you can change it later).
+      </p>
+    </div>
+  </div>
+
+  <!-- App -->
+  <div class="app" id="app" aria-hidden="true">
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="brand">
+        <div class="dot"></div>
+        <div>
+          <div class="brand-title">Jeblimaak Admin</div>
+          <div class="brand-sub muted" id="sessionState">Locked</div>
+        </div>
+      </div>
+
+      <div class="top-actions">
+        <button class="btn" id="compactBtn" title="Phone-friendly compact layout">Compact</button>
+        <button class="btn" id="lockBtn">Lock</button>
+      </div>
+    </header>
+
+    <!-- Tabs -->
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-tab="orders" role="tab">Orders</button>
+      <button class="tab" data-tab="chat" role="tab">Chat</button>
+      <button class="tab" data-tab="drivers" role="tab">Drivers</button>
+      <button class="tab" data-tab="settings" role="tab">Settings</button>
+      <button class="tab" data-tab="maps" role="tab">Maps</button>
+    </nav>
+
+    <!-- Main -->
+    <main class="panel">
+      <!-- ORDERS -->
+      <section id="orders" class="section">
+        <div class="grid2">
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <div class="card-title">Orders</div>
+                <div class="muted">Prototype list + filters</div>
+              </div>
+
+              <div class="row right">
+                <input id="orderSearch" class="input" placeholder="Search by ID / name…" />
+                <button class="btn" id="refreshOrders">Refresh</button>
+              </div>
+            </div>
+
+            <div class="subtabs" role="tablist" aria-label="Order Tabs">
+              <button class="subtab active" data-otab="ACTIVE">Active</button>
+              <button class="subtab" data-otab="WAITING">Waiting</button>
+              <button class="subtab" data-otab="COMPLETED">Completed</button>
+              <button class="subtab" data-otab="CANCELED">Canceled</button>
+            </div>
+
+            <div class="table-wrap" id="ordersTable"></div>
+          </div>
+
+          <div class="stack">
+            <div class="card">
+              <div class="card-head">
+                <div>
+                  <div class="card-title">Price Update Requests</div>
+                  <div class="muted">Show pending price updates</div>
+                </div>
+                <button class="btn" id="refreshPriceReq">Refresh</button>
+              </div>
+              <div id="priceReqList"></div>
+            </div>
+
+            <div class="card">
+              <div class="card-head">
+                <div>
+                  <div class="card-title">Quick Actions</div>
+                  <div class="muted">UI only (no backend yet)</div>
+                </div>
+              </div>
+
+              <div class="quick">
+                <button class="btn primary" id="createManualOrderBtn">+ Manual Order</button>
+                <button class="btn" id="openChatFromOrderBtn">Open Chat</button>
+                <button class="btn danger" id="cancelOrderBtn">Cancel Order</button>
+              </div>
+
+              <div class="muted" style="margin-top:10px">
+                These actions are placeholders until we connect the Core API.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CHAT -->
+      <section id="chat" class="section hidden">
+        <div class="gridChat">
+          <div class="card chatList">
+            <div class="card-head">
+              <div>
+                <div class="card-title">Chats</div>
+                <div class="muted">Orders with conversations</div>
+              </div>
+              <button class="btn" id="refreshChats">Refresh</button>
+            </div>
+
+            <input id="chatSearch" class="input full" placeholder="Search chats…" />
+            <div id="chatList"></div>
+          </div>
+
+          <div class="card chatWindow">
+            <div class="chatHead">
+              <div class="avatar" id="chatAvatar">J</div>
+              <div class="chatMeta">
+                <div class="chatTitle" id="chatTitle">Select a chat</div>
+                <div class="chatSub muted" id="chatSub">—</div>
+              </div>
+
+              <div class="row right">
+                <button class="btn" id="rtlBtn">RTL</button>
+                <button class="btn" id="ltrBtn">LTR</button>
+              </div>
+            </div>
+
+            <div class="messages" id="messages">
+              <div class="empty muted">Pick an order chat from the left.</div>
+            </div>
+
+            <div class="composer">
+              <input id="msgInput" class="input full" placeholder="Type a message (prototype)…" />
+              <button class="btn primary" id="sendBtn">Send</button>
+            </div>
+
+            <div class="muted small" style="margin-top:8px">
+              In the real version: messages will show WhatsApp inbox/outbox events for that order.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- DRIVERS -->
+      <section id="drivers" class="section hidden">
+        <div class="grid2">
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <div class="card-title">Drivers</div>
+                <div class="muted">Enable / Off / Archive (UI)</div>
+              </div>
+              <div class="row right">
+                <select id="driversScope" class="input">
+                  <option value="all">All</option>
+                  <option value="active">Active</option>
+                  <option value="off">Off</option>
+                  <option value="archived">Archived</option>
+                </select>
+                <button class="btn" id="refreshDrivers">Refresh</button>
+                <button class="btn primary" id="addDriverBtn">+ Add</button>
+              </div>
+            </div>
+
+            <div class="table-wrap" id="driversTable"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <div class="card-title">Invites</div>
+                <div class="muted">Single-use invites (UI)</div>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>TTL (minutes)</label>
+              <input id="inviteTtl" class="input" type="number" min="5" value="1440" />
+            </div>
+
+            <button class="btn primary" id="genInviteBtn">Generate Invite</button>
+            <div id="inviteBox" class="muted" style="margin-top:10px"></div>
+          </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal" id="addDriverModal" aria-hidden="true">
+          <div class="modal-overlay"></div>
+          <div class="modal-card">
+            <h3>Add Driver</h3>
+            <input id="drvName" class="input" placeholder="Name" />
+            <input id="drvChatId" class="input" placeholder="Telegram Chat ID" />
+            <input id="drvUser" class="input" placeholder="Telegram username (optional)" />
+            <div class="row right">
+              <button class="btn" id="closeDriverModal">Cancel</button>
+              <button class="btn primary" id="saveDriverBtn">Save</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SETTINGS -->
+      <section id="settings" class="section hidden">
+        <div class="grid2">
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <div class="card-title">System Settings</div>
+                <div class="muted">Prototype controls (stored locally)</div>
+              </div>
+            </div>
+
+            <div class="settings">
+              <div class="setting">
+                <div>
+                  <div class="setting-title">Manual Mode</div>
+                  <div class="muted">Office creates & controls dispatch manually</div>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="manualMode"/>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="setting">
+                <div>
+                  <div class="setting-title">Max active orders per driver</div>
+                  <div class="muted">Limit how many orders a driver can claim</div>
+                </div>
+                <input id="maxOrders" class="input smallInput" type="number" min="1" max="10" value="3"/>
+              </div>
+
+              <hr class="sep"/>
+
+              <div class="setting">
+                <div>
+                  <div class="setting-title">Redispatch timings (Rounds)</div>
+                  <div class="muted">Per order: No reply / All refused</div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="field grow">
+                  <label>No reply after (minutes)</label>
+                  <input id="noReplyMin" class="input" type="number" min="1" value="3"/>
+                </div>
+                <div class="field grow">
+                  <label>All refused after (minutes)</label>
+                  <input id="allRefusedMin" class="input" type="number" min="1" value="5"/>
+                </div>
+              </div>
+
+              <div class="row right">
+                <button class="btn" id="resetSettings">Reset</button>
+                <button class="btn primary" id="saveSettings">Save</button>
+              </div>
+
+              <div class="muted small">
+                Later when we connect Core: these will map to DB settings or env + apply to redispatch logic.
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <div class="card-title">Security</div>
+                <div class="muted">Admin Secret session protection</div>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Auto-lock after inactivity (minutes)</label>
+              <input id="autoLockMin" class="input" type="number" min="1" value="10"/>
+            </div>
+
+            <div class="row right">
+              <button class="btn danger" id="clearSessionBtn">Clear session</button>
+            </div>
+
+            <div class="muted small">
+              In real panel: we’ll keep secret in memory only + require re-enter after timeout.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MAPS -->
+      <section id="maps" class="section hidden">
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <div class="card-title">Maps Tracking (Coming Soon)</div>
+              <div class="muted">Placeholder for live driver locations + routes</div>
+            </div>
+          </div>
+
+          <div class="mapsPlaceholder">
+            <div class="mapBox">
+              <div class="muted">Map widget placeholder</div>
+              <div class="muted small">Later: Google Maps / Mapbox + driver tracking</div>
+            </div>
+
+            <div class="mapSide">
+              <div class="card miniCard">
+                <div class="card-title">Tracking</div>
+                <div class="muted">No data yet</div>
+              </div>
+              <div class="card miniCard">
+                <div class="card-title">Geofences</div>
+                <div class="muted">No data yet</div>
+              </div>
+              <div class="card miniCard">
+                <div class="card-title">ETA</div>
+                <div class="muted">No data yet</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+  </div>
+
+  <script src="./panel.js"></script>
+</body>
+</html>
 
