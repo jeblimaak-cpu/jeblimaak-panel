@@ -362,17 +362,108 @@ hr.sep{
 .lock h1{margin:6px 0 4px 0}
 .hint{margin-top:10px}
 
-/* Compact mode */
-body.compact .panel{padding:10px}
-body.compact .grid2{grid-template-columns:1fr}
-body.compact .gridChat{grid-template-columns:1fr}
-body.compact .table{min-width:640px}
+/* ===== Order details drawer ===== */
+.drawer{
+  position:fixed;
+  top:0; right:0; bottom:0;
+  width:460px;
+  max-width:94vw;
+  transform:translateX(110%);
+  transition:transform .18s ease;
+  z-index:1500;
+  background:var(--bg2);
+  border-left:1px solid var(--border);
+  box-shadow: var(--shadow);
+  display:flex;
+  flex-direction:column;
+}
+.drawer.show{transform:translateX(0)}
+.drawerHead{
+  padding:14px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+.drawerBody{padding:14px;overflow:auto;display:grid;gap:12px}
+.kv{
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:10px;
+  background:rgba(255,255,255,0.02);
+}
+.kv .k{font-size:12px;color:var(--muted)}
+.kv .v{font-weight:850;margin-top:4px}
+.drawerFooter{
+  padding:14px;
+  border-top:1px solid var(--border);
+  display:flex;
+  gap:10px;
+  justify-content:flex-end;
+  flex-wrap:wrap;
+}
+.drawerOverlay{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,0.55);
+  display:none;
+  z-index:1400;
+}
+.drawerOverlay.show{display:block}
 
-/* Mobile */
-@media (max-width: 920px){
+/* ===== Mobile app feel ===== */
+@media (max-width: 820px){
+  .panel{padding:12px; padding-bottom:78px;}
   .grid2{grid-template-columns:1fr}
   .gridChat{grid-template-columns:1fr}
-  .table{min-width:680px}
   .mapsPlaceholder{grid-template-columns:1fr}
+
+  /* bottom nav */
+  .tabs{
+    position:fixed;
+    bottom:0;
+    left:0; right:0;
+    top:auto;
+    border-top:1px solid var(--border);
+    border-bottom:none;
+    padding:10px 10px;
+    justify-content:space-between;
+    background:rgba(15,22,34,0.98);
+    backdrop-filter: blur(10px);
+    z-index:60;
+  }
+  .tab{
+    flex:1;
+    text-align:center;
+    padding:10px 8px;
+    border-radius:14px;
+  }
+
+  /* make orders not feel like desktop table */
+  .table{min-width:0}
+  .table-wrap{border:none; overflow:visible}
 }
 
+/* Orders cards mode on small screens */
+@media (max-width: 640px){
+  .card{padding:12px}
+  .card-head{gap:8px}
+
+  table.table, thead, tbody, th, td, tr { display:block; }
+  table.table thead{ display:none; }
+  table.table tr{
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:10px;
+    margin:10px 0;
+    background:rgba(255,255,255,0.02);
+  }
+  table.table td{
+    border-bottom:none;
+    padding:6px 0;
+    text-align:left;
+  }
+  table.table td:last-child{padding-bottom:2px}
+
+  .drawer{width:100%; max-width:100%}
+}
