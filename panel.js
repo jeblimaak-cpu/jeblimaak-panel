@@ -1,10 +1,8 @@
 (() => {
   const $ = (id) => document.getElementById(id);
 
-  // ===== Demo secret =====
   const DEMO_SECRET = "demo123";
 
-  // ===== Storage keys =====
   const K = {
     sessionUnlocked: "jeb_admin_unlocked",
     sessionAt: "jeb_admin_last_active",
@@ -16,7 +14,7 @@
     compact: "jeb_compact_mode",
   };
 
-  // ===== UI: toast =====
+  // Toast
   const toastEl = $("toast");
   let toastT = null;
   function toast(msg){
@@ -27,7 +25,7 @@
     toastT = setTimeout(() => (toastEl.style.display = "none"), 2200);
   }
 
-  // ===== Session lock/unlock =====
+  // Session
   const lockEl = $("lock");
   const appEl  = $("app");
   const sessionStateEl = $("sessionState");
@@ -39,19 +37,12 @@
   }
 
   function nowMs(){ return Date.now(); }
-
   function getAutoLockMs(){
     const m = Number(localStorage.getItem(K.autoLockMin) || 10);
     return Math.max(1, m) * 60 * 1000;
   }
-
-  function isUnlocked(){
-    return localStorage.getItem(K.sessionUnlocked) === "1";
-  }
-
-  function markActive(){
-    localStorage.setItem(K.sessionAt, String(nowMs()));
-  }
+  function isUnlocked(){ return localStorage.getItem(K.sessionUnlocked) === "1"; }
+  function markActive(){ localStorage.setItem(K.sessionAt, String(nowMs())); }
 
   function lock(){
     localStorage.setItem(K.sessionUnlocked, "0");
@@ -60,7 +51,6 @@
   }
 
   function unlockWithSecret(secret){
-    // prototype check
     if (String(secret || "").trim() !== DEMO_SECRET){
       toast("Wrong secret (prototype)");
       return false;
@@ -72,29 +62,19 @@
     return true;
   }
 
-  // auto-lock timer
   function autoLockTick(){
     if (!isUnlocked()) return;
     const last = Number(localStorage.getItem(K.sessionAt) || 0);
     if (!last) return;
-    if (nowMs() - last > getAutoLockMs()){
-      lock();
-    }
+    if (nowMs() - last > getAutoLockMs()) lock();
   }
   setInterval(autoLockTick, 2000);
 
-  // activity listeners
-  ["click","keydown","touchstart","mousemove","scroll"].forEach((ev) => {
-    window.addEventListener(ev, () => {
-      if (isUnlocked()) markActive();
-    }, { passive: true });
+  ["click","keydown","touchstart","scroll"].forEach((ev) => {
+    window.addEventListener(ev, () => { if (isUnlocked()) markActive(); }, { passive:true });
   });
 
-  // unlock UI
-  $("unlockBtn").onclick = () => {
-    const v = $("secretInput").value;
-    unlockWithSecret(v);
-  };
+  $("unlockBtn").onclick = () => unlockWithSecret($("secretInput").value);
   $("demoBtn").onclick = () => {
     $("secretInput").value = DEMO_SECRET;
     unlockWithSecret(DEMO_SECRET);
@@ -108,7 +88,7 @@
     setAppUnlocked(false);
   };
 
-  // ===== Compact mode =====
+  // Compact
   function applyCompact(){
     const on = localStorage.getItem(K.compact) === "1";
     document.body.classList.toggle("compact", on);
@@ -120,7 +100,7 @@
     applyCompact();
   };
 
-  // ===== Tabs =====
+  // Tabs
   const sections = ["orders","chat","drivers","settings","maps"];
   document.querySelectorAll(".tab").forEach((b) => {
     b.onclick = () => {
@@ -128,27 +108,26 @@
       b.classList.add("active");
       const t = b.dataset.tab;
       sections.forEach((id) => $(id).classList.toggle("hidden", id !== t));
-      // on open
       if (t === "orders") loadOrders();
       if (t === "drivers") loadDrivers();
-      if (t === "chat") loadChats();
+      if (t === "chat") loadChatsAll();
       if (t === "settings") loadSettingsUI();
     };
   });
 
-  // ===== Mock data (UI only) =====
+  // Mock state
   const S = {
     orderTab: "ACTIVE",
     activeChat: null,
     dir: "ltr",
-    // pretend DB
+    activeOrderId: null,
     orders: [
-      { id:"0412", name:"Ahmad", status:"ASSIGNED", driver:"112233", price:70000, updatedAt: Date.now()- 5*60*1000 },
-      { id:"5180", name:"Maya", status:"PRICE_UPDATE_PENDING", driver:"112233", price:70000, pendingPrice:90000, updatedAt: Date.now()- 2*60*1000 },
-      { id:"9001", name:"Rami", status:"WAITING_FOR_DRIVER", driver:null, price:70000, updatedAt: Date.now()- 12*60*1000 },
-      { id:"1337", name:"Lina", status:"REASSIGNED", driver:null, price:80000, updatedAt: Date.now()- 22*60*1000 },
-      { id:"7777", name:"Omar", status:"COMPLETED", driver:"998877", price:65000, updatedAt: Date.now()- 3*60*60*1000 },
-      { id:"6666", name:"Sara", status:"CANCELED_BY_OFFICE", driver:null, price:70000, updatedAt: Date.now()- 26*60*60*1000 },
+      { id:"0412", name:"Ahmad", status:"ASSIGNED", driver:"112233", price:70000, updatedAt: Date.now()- 5*60*1000, address:"Hamra", request:"2 man2oushe" },
+      { id:"5180", name:"Maya", status:"PRICE_UPDATE_PENDING", driver:"112233", price:70000, pendingPrice:90000, updatedAt: Date.now()- 2*60*1000, address:"Achrafieh", request:"Pharmacy pickup" },
+      { id:"9001", name:"Rami", status:"WAITING_FOR_DRIVER", driver:null, price:70000, updatedAt: Date.now()- 12*60*1000, address:"Verdun", request:"Groceries" },
+      { id:"1337", name:"Lina", status:"REASSIGNED", driver:null, price:80000, updatedAt: Date.now()- 22*60*1000, address:"Mar Mkhael", request:"Food order" },
+      { id:"7777", name:"Omar", status:"COMPLETED", driver:"998877", price:65000, updatedAt: Date.now()- 3*60*60*1000, address:"Jnah", request:"Delivery" },
+      { id:"6666", name:"Sara", status:"CANCELED_BY_OFFICE", driver:null, price:70000, updatedAt: Date.now()- 26*60*60*1000, address:"Dbayeh", request:"Canceled" },
     ],
     drivers: [
       { name:"Fadi", chat:"112233", user:"@fadi", approved:true, active:true, archived:false },
@@ -156,14 +135,22 @@
       { name:"Ali", chat:"445566", user:"-", approved:false, active:false, archived:false },
       { name:"Old Driver", chat:"101010", user:"-", approved:false, active:false, archived:true },
     ],
+    // chats for ANY status orders
     chats: {
       "0412": [
-        { dir:"in",  text:"وين صار الطلب؟", ts: Date.now()- 18*60*1000 },
-        { dir:"out", text:"بالطريق، بعد 5 دقايق بوصل.", ts: Date.now()- 16*60*1000 },
+        { dir:"in",  text:"Where is the driver?", ts: Date.now()- 18*60*1000 },
+        { dir:"out", text:"On the way, 5 minutes.", ts: Date.now()- 16*60*1000 },
       ],
       "5180": [
-        { dir:"in",  text:"قديش صار السعر؟", ts: Date.now()- 10*60*1000 },
-        { dir:"out", text:"صار في تعديل سعر، ناطرين موافقة الإدارة.", ts: Date.now()- 9*60*1000 },
+        { dir:"in",  text:"How much is it now?", ts: Date.now()- 10*60*1000 },
+        { dir:"out", text:"Price update pending admin approval.", ts: Date.now()- 9*60*1000 },
+      ],
+      "7777": [
+        { dir:"in",  text:"Thanks 🙏", ts: Date.now()- 3*60*60*1000 + 4*60*1000 },
+        { dir:"out", text:"You’re welcome!", ts: Date.now()- 3*60*60*1000 + 3*60*1000 },
+      ],
+      "6666": [
+        { dir:"in",  text:"Cancel please", ts: Date.now()- 26*60*60*1000 + 8*60*1000 },
       ],
     }
   };
@@ -171,6 +158,14 @@
   function fmt(ts){
     const d = new Date(ts);
     return d.toLocaleString([], { hour:"2-digit", minute:"2-digit" });
+  }
+  function escapeHtml(s){
+    return String(s)
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
   }
 
   function badgeForStatus(st){
@@ -183,7 +178,97 @@
     return `<span class="badge">${s}</span>`;
   }
 
-  // ===== Orders sub-tabs =====
+  function driverNameByChatId(chatId){
+    if (!chatId) return null;
+    const d = S.drivers.find(x => String(x.chat) === String(chatId));
+    return d?.name || null;
+  }
+
+  // ===== Order details drawer (injected) =====
+  function ensureDrawer(){
+    if (document.getElementById("drawerOverlay")) return;
+
+    const overlay = document.createElement("div");
+    overlay.id = "drawerOverlay";
+    overlay.className = "drawerOverlay";
+    overlay.onclick = closeDrawer;
+
+    const drawer = document.createElement("div");
+    drawer.id = "orderDrawer";
+    drawer.className = "drawer";
+    drawer.innerHTML = `
+      <div class="drawerHead">
+        <div>
+          <div class="card-title" id="drawerTitle">Order</div>
+          <div class="muted small" id="drawerSub">—</div>
+        </div>
+        <button class="btn" id="drawerCloseBtn">Close</button>
+      </div>
+
+      <div class="drawerBody" id="drawerBody"></div>
+
+      <div class="drawerFooter">
+        <button class="btn" id="drawerOpenChat">Open Chat</button>
+        <button class="btn danger" id="drawerCancel">Cancel Order</button>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+    document.body.appendChild(drawer);
+
+    document.getElementById("drawerCloseBtn").onclick = closeDrawer;
+    document.getElementById("drawerOpenChat").onclick = () => {
+      if (!S.activeOrderId) return;
+      openChatForOrder(S.activeOrderId);
+      // switch to chat tab
+      document.querySelectorAll(".tab").forEach(x => x.classList.toggle("active", x.dataset.tab === "chat"));
+      sections.forEach((sid) => $(sid).classList.toggle("hidden", sid !== "chat"));
+    };
+    document.getElementById("drawerCancel").onclick = () => toast("Cancel (prototype)");
+  }
+
+  function openDrawer(orderId){
+    ensureDrawer();
+    const overlay = document.getElementById("drawerOverlay");
+    const drawer = document.getElementById("orderDrawer");
+    const body = document.getElementById("drawerBody");
+
+    const o = S.orders.find(x => x.id === orderId);
+    if (!o) return;
+
+    S.activeOrderId = orderId;
+
+    const drvName = driverNameByChatId(o.driver);
+    const drvLine = o.driver ? `${drvName ? drvName + " • " : ""}${o.driver}` : "—";
+
+    document.getElementById("drawerTitle").textContent = `Order #${o.id}`;
+    document.getElementById("drawerSub").textContent = `${o.name || "Customer"} • ${o.status}`;
+
+    body.innerHTML = `
+      <div class="kv"><div class="k">Customer</div><div class="v">${escapeHtml(o.name || "-")}</div></div>
+      <div class="kv"><div class="k">Status</div><div class="v">${badgeForStatus(o.status)}</div></div>
+      <div class="kv"><div class="k">Driver</div><div class="v">${escapeHtml(drvLine)}</div></div>
+      <div class="kv"><div class="k">Address</div><div class="v">${escapeHtml(o.address || "-")}</div></div>
+      <div class="kv"><div class="k">Request</div><div class="v">${escapeHtml(o.request || "-")}</div></div>
+      <div class="kv"><div class="k">Price</div><div class="v">${Number(o.price || 0).toLocaleString("en-US")} L.L</div></div>
+      ${
+        o.pendingPrice ? `<div class="kv"><div class="k">Pending Price</div><div class="v">${Number(o.pendingPrice).toLocaleString("en-US")} L.L</div></div>` : ``
+      }
+      <div class="kv"><div class="k">Updated</div><div class="v">${escapeHtml(fmt(o.updatedAt))}</div></div>
+    `;
+
+    overlay.classList.add("show");
+    drawer.classList.add("show");
+  }
+
+  function closeDrawer(){
+    const overlay = document.getElementById("drawerOverlay");
+    const drawer = document.getElementById("orderDrawer");
+    overlay?.classList.remove("show");
+    drawer?.classList.remove("show");
+  }
+
+  // ===== Orders =====
   document.querySelectorAll(".subtab").forEach((b) => {
     b.onclick = () => {
       document.querySelectorAll(".subtab").forEach(x => x.classList.remove("active"));
@@ -216,7 +301,7 @@
       <table class="table">
         <thead>
           <tr>
-            <th>ID</th>
+            <th>Order</th>
             <th>Status</th>
             <th>Driver</th>
             <th>Price</th>
@@ -225,29 +310,28 @@
         </thead>
         <tbody>
           ${
-            rows.length ? rows.map(o => `
-              <tr data-oid="${o.id}" class="rowClick">
-                <td><b>#${o.id}</b><div class="muted small">${o.name || "-"}</div></td>
-                <td>${badgeForStatus(o.status)}</td>
-                <td>${o.driver ? `<code>${o.driver}</code>` : `<span class="muted">—</span>`}</td>
-                <td>${Number(o.pendingPrice || o.price || 0).toLocaleString("en-US")} L.L</td>
-                <td>${fmt(o.updatedAt)}</td>
-              </tr>
-            `).join("") : `<tr><td colspan="5" class="muted">No orders</td></tr>`
+            rows.length ? rows.map(o => {
+              const drvName = driverNameByChatId(o.driver);
+              const drvText = o.driver ? `${drvName ? drvName : "Driver"} (${o.driver})` : "—";
+              const shownPrice = Number(o.pendingPrice || o.price || 0).toLocaleString("en-US");
+              return `
+                <tr data-oid="${o.id}" class="rowClick">
+                  <td><b>#${o.id}</b><div class="muted small">${escapeHtml(o.name || "-")}</div></td>
+                  <td>${badgeForStatus(o.status)}</td>
+                  <td>${o.driver ? `<div><b>${escapeHtml(drvName || "Driver")}</b></div><div class="muted small"><code>${escapeHtml(o.driver)}</code></div>` : `<span class="muted">—</span>`}</td>
+                  <td>${shownPrice} L.L</td>
+                  <td>${escapeHtml(fmt(o.updatedAt))}</td>
+                </tr>
+              `;
+            }).join("") : `<tr><td colspan="5" class="muted">No orders</td></tr>`
           }
         </tbody>
       </table>
     `;
 
-    // click row -> open chat tab
+    // click row -> open details drawer (NOT chat)
     document.querySelectorAll(".rowClick").forEach((tr) => {
-      tr.onclick = () => {
-        const id = tr.getAttribute("data-oid");
-        openChatForOrder(id);
-        // switch tab
-        document.querySelectorAll(".tab").forEach(x => x.classList.toggle("active", x.dataset.tab === "chat"));
-        sections.forEach((sid) => $(sid).classList.toggle("hidden", sid !== "chat"));
-      };
+      tr.onclick = () => openDrawer(tr.getAttribute("data-oid"));
     });
 
     loadPriceRequests();
@@ -258,40 +342,46 @@
       .filter(o => o.status === "PRICE_UPDATE_PENDING" && o.pendingPrice)
       .sort((a,b) => b.updatedAt - a.updatedAt);
 
-    $("priceReqList").innerHTML = rows.length ? rows.map(o => `
-      <div class="priceReqItem">
-        <div class="priceReqTop">
-          <div>
-            <div class="priceReqTitle">#${o.id} • ${o.name || "Customer"}</div>
-            <div class="muted small">Driver: ${o.driver ? o.driver : "—"} • Updated: ${fmt(o.updatedAt)}</div>
+    $("priceReqList").innerHTML = rows.length ? rows.map(o => {
+      const drvName = driverNameByChatId(o.driver);
+      return `
+        <div class="priceReqItem">
+          <div class="priceReqTop">
+            <div>
+              <div class="priceReqTitle">#${o.id} • ${escapeHtml(o.name || "Customer")}</div>
+              <div class="muted small">Driver: ${escapeHtml(drvName || "Driver")} ${o.driver ? `(${o.driver})` : ""} • Updated: ${escapeHtml(fmt(o.updatedAt))}</div>
+            </div>
+            <div class="badge warn">PENDING</div>
           </div>
-          <div class="badge warn">PENDING</div>
-        </div>
 
-        <div style="margin-top:10px">
-          <div class="muted small">Current</div>
-          <div><b>${Number(o.price).toLocaleString("en-US")} L.L</b></div>
-        </div>
+          <div style="margin-top:10px">
+            <div class="muted small">Current</div>
+            <div><b>${Number(o.price).toLocaleString("en-US")} L.L</b></div>
+          </div>
 
-        <div style="margin-top:10px">
-          <div class="muted small">Requested</div>
-          <div><b>${Number(o.pendingPrice).toLocaleString("en-US")} L.L</b></div>
-        </div>
+          <div style="margin-top:10px">
+            <div class="muted small">Requested</div>
+            <div><b>${Number(o.pendingPrice).toLocaleString("en-US")} L.L</b></div>
+          </div>
 
-        <div class="priceReqBtns" style="margin-top:10px">
-          <button class="btn primary" onclick="window.__approvePrice('${o.id}')">Approve</button>
-          <button class="btn" onclick="window.__rejectKeep('${o.id}')">Reject (Keep)</button>
-          <button class="btn danger" onclick="window.__setPrice('${o.id}')">Set Final</button>
-        </div>
+          <div class="priceReqBtns" style="margin-top:10px">
+            <button class="btn primary" onclick="window.__approvePrice('${o.id}')">Approve</button>
+            <button class="btn" onclick="window.__rejectKeep('${o.id}')">Reject (Keep)</button>
+            <button class="btn danger" onclick="window.__setPrice('${o.id}')">Set Final</button>
+            <button class="btn" onclick="window.__openDetails('${o.id}')">Details</button>
+          </div>
 
-        <div class="muted small" style="margin-top:8px">
-          Prototype only: these buttons will call Core endpoints later.
+          <div class="muted small" style="margin-top:8px">
+            Prototype only: buttons will call Core endpoints later.
+          </div>
         </div>
-      </div>
-    `).join("") : `<div class="muted">No pending price updates.</div>`;
+      `;
+    }).join("") : `<div class="muted">No pending price updates.</div>`;
   }
 
-  // expose mock actions
+  window.__openDetails = (id) => openDrawer(id);
+
+  // mock price actions
   window.__approvePrice = (id) => {
     const o = S.orders.find(x => x.id === id);
     if (!o) return;
@@ -325,8 +415,12 @@
     loadOrders();
   };
 
-  // ===== Chat =====
-  $("refreshChats").onclick = () => loadChats();
+  // Quick actions (remove open chat here)
+  $("createManualOrderBtn").onclick = () => toast("Manual Order UI (next step)");
+  $("cancelOrderBtn").onclick = () => toast("Cancel UI (next step)");
+
+  // ===== Chat (ALL chats, not only active orders) =====
+  $("refreshChats").onclick = () => loadChatsAll();
   $("sendBtn").onclick = () => sendChat();
   $("rtlBtn").onclick = () => setDir("rtl");
   $("ltrBtn").onclick = () => setDir("ltr");
@@ -337,27 +431,54 @@
     document.documentElement.lang = dir === "rtl" ? "ar" : "en";
   }
 
-  function loadChats(){
+  function buildAllChatsIndex(){
+    // include chats for any order status + allow orders with no chat (optional)
+    const chatOrderIds = new Set(Object.keys(S.chats || {}));
+    const list = [];
+
+    // 1) orders with chats
+    for (const id of chatOrderIds){
+      const o = S.orders.find(x => x.id === id);
+      const msgs = S.chats[id] || [];
+      const lastMsg = msgs[msgs.length-1];
+      const ts = lastMsg?.ts || o?.updatedAt || Date.now();
+      list.push({
+        id,
+        name: o?.name || "Customer",
+        status: o?.status || "—",
+        last: lastMsg?.text || "",
+        ts
+      });
+    }
+
+    // 2) (optional) orders without chats -> still show as “No messages yet”
+    for (const o of S.orders){
+      if (chatOrderIds.has(o.id)) continue;
+      list.push({
+        id: o.id,
+        name: o.name || "Customer",
+        status: o.status,
+        last: "No messages yet",
+        ts: o.updatedAt || Date.now()
+      });
+    }
+
+    return list.sort((a,b) => b.ts - a.ts);
+  }
+
+  function loadChatsAll(){
     const q = String($("chatSearch").value || "").trim().toLowerCase();
-    const list = Object.keys(S.chats)
-      .map((id) => {
-        const o = S.orders.find(x => x.id === id) || { id, name:"Customer", status:"—", updatedAt: Date.now() };
-        const msgs = S.chats[id] || [];
-        const last = msgs[msgs.length-1]?.text || "";
-        const ts = msgs[msgs.length-1]?.ts || o.updatedAt;
-        return { id, name:o.name, status:o.status, last, ts };
-      })
-      .filter(x => !q || x.id.includes(q) || String(x.name||"").toLowerCase().includes(q))
-      .sort((a,b)=>b.ts-a.ts);
+    const list = buildAllChatsIndex()
+      .filter(x => !q || x.id.includes(q) || String(x.name||"").toLowerCase().includes(q));
 
     $("chatList").innerHTML = list.length ? list.map(x => `
       <div class="chatItem ${S.activeChat===x.id?'active':''}" data-oid="${x.id}">
         <div class="av">${(x.name||"J").trim().slice(0,1).toUpperCase()}</div>
         <div class="meta">
-          <div class="t">#${x.id} • ${x.name || "Customer"}</div>
-          <div class="s">${x.last || "—"}</div>
+          <div class="t">#${escapeHtml(x.id)} • ${escapeHtml(x.name || "Customer")}</div>
+          <div class="s">${escapeHtml(x.last || "—")}</div>
         </div>
-        <div class="r">${fmt(x.ts)}</div>
+        <div class="r">${escapeHtml(fmt(x.ts))}</div>
       </div>
     `).join("") : `<div class="muted">No chats.</div>`;
 
@@ -365,26 +486,28 @@
       el.onclick = () => openChatForOrder(el.getAttribute("data-oid"));
     });
 
-    // live search
-    $("chatSearch").oninput = () => loadChats();
+    $("chatSearch").oninput = () => loadChatsAll();
   }
 
   function openChatForOrder(orderId){
     S.activeChat = orderId;
+
     const o = S.orders.find(x => x.id === orderId);
-    $("chatTitle").textContent = o ? `#${o.id} • ${o.name || "Customer"}` : `#${orderId}`;
+    const title = o ? `#${o.id} • ${o.name || "Customer"}` : `#${orderId}`;
+    $("chatTitle").textContent = title;
     $("chatSub").textContent = o ? `Status: ${o.status}` : "—";
     $("chatAvatar").textContent = (o?.name || "J").trim().slice(0,1).toUpperCase();
+
     renderChat();
-    loadChats();
+    loadChatsAll();
   }
 
   function renderChat(){
-    const msgs = S.chats[S.activeChat] || [];
     if (!S.activeChat){
       $("messages").innerHTML = `<div class="empty muted">Pick an order chat from the left.</div>`;
       return;
     }
+    const msgs = S.chats[S.activeChat] || [];
     $("messages").innerHTML = msgs.length ? msgs.map(m => `
       <div class="bubbleRow ${m.dir}">
         <div class="bubble ${m.dir==='out'?'out':''}">
@@ -394,18 +517,8 @@
       </div>
     `).join("") : `<div class="empty muted">No messages yet.</div>`;
 
-    // scroll bottom
     const el = $("messages");
     requestAnimationFrame(() => { el.scrollTop = el.scrollHeight + 9999; });
-  }
-
-  function escapeHtml(s){
-    return String(s)
-      .replaceAll("&","&amp;")
-      .replaceAll("<","&lt;")
-      .replaceAll(">","&gt;")
-      .replaceAll('"',"&quot;")
-      .replaceAll("'","&#039;");
   }
 
   function sendChat(){
@@ -442,6 +555,8 @@
     hideModal("addDriverModal");
     toast("Driver added (prototype)");
     loadDrivers();
+    loadOrders(); // refresh driver names in orders
+    loadPriceRequests();
   };
 
   window.__driverToggle = (chat, enable) => {
@@ -451,6 +566,7 @@
     d.archived = false;
     toast(enable ? "Enabled" : "Disabled");
     loadDrivers();
+    loadOrders();
   };
   window.__driverArchive = (chat) => {
     const d = S.drivers.find(x => x.chat === String(chat));
@@ -460,6 +576,7 @@
     d.archived = true;
     toast("Archived");
     loadDrivers();
+    loadOrders();
   };
 
   function loadDrivers(){
@@ -516,7 +633,7 @@
     `;
   }
 
-  // Invites (UI only)
+  // Invites UI only
   $("genInviteBtn").onclick = () => {
     const ttl = Math.max(5, Number($("inviteTtl").value || 1440));
     const code = "INV_" + Math.random().toString(16).slice(2,10).toUpperCase();
@@ -556,16 +673,10 @@
     toast("Reset");
   };
 
-  // Quick actions (prototype)
-  $("createManualOrderBtn").onclick = () => toast("Manual Order UI (next step)");
-  $("openChatFromOrderBtn").onclick = () => toast("Select an order row to open chat");
-  $("cancelOrderBtn").onclick = () => toast("Cancel UI (next step)");
-
   // ===== Init =====
   applyCompact();
-  setDir("ltr");
+  setDir("ltr"); // English default
 
-  // initial lock state
   if (isUnlocked()) {
     setAppUnlocked(true);
     markActive();
@@ -573,12 +684,10 @@
     setAppUnlocked(false);
   }
 
-  // initial load if unlocked
   if (isUnlocked()){
     loadOrders();
     loadDrivers();
-    loadChats();
+    loadChatsAll();
     loadSettingsUI();
   }
 })();
-
