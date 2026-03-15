@@ -28,3 +28,11 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
+const bottomNavItems = document.querySelectorAll(".bottom-nav__item");
+
+bottomNavItems.forEach(item => {
+  item.addEventListener("click", () => {
+    bottomNavItems.forEach(btn => btn.classList.remove("active"));
+    item.classList.add("active");
+  });
+});
