@@ -13,42 +13,23 @@
         <div class="sidebar__logo">🛵</div>
         <div>
           <h1>Jeblimaak</h1>
-          <p>Delivery Admin Panel</p>
+          <p>Dispatch Admin Panel</p>
         </div>
       </div>
 
       <nav class="sidebar__nav">
-        <a href="#" class="nav-item">
-          <span class="nav-item__icon">🏠</span>
-          <span>لوحة التحكم</span>
-        </a>
-
-        <a href="#" class="nav-item active">
-          <span class="nav-item__icon">📦</span>
-          <span>الطلبات</span>
-        </a>
-
-        <a href="#" class="nav-item">
-          <span class="nav-item__icon">🛵</span>
-          <span>السائقون</span>
-        </a>
-
-        <a href="#" class="nav-item">
-          <span class="nav-item__icon">🔔</span>
-          <span>التنبيهات</span>
-        </a>
-
-        <a href="#" class="nav-item">
-          <span class="nav-item__icon">⚙️</span>
-          <span>الإعدادات</span>
-        </a>
+        <a href="#" class="nav-item active">📦 <span>الطلبات</span></a>
+        <a href="#" class="nav-item">🛵 <span>السائقون</span></a>
+        <a href="#" class="nav-item">📒 <span>الحسابات</span></a>
+        <a href="#" class="nav-item">🔔 <span>التنبيهات</span></a>
+        <a href="#" class="nav-item">⚙️ <span>الإعدادات</span></a>
       </nav>
 
       <div class="sidebar__footer">
         <div class="workspace-card">
           <span class="workspace-card__label">Workspace</span>
-          <strong>Dispatch Preview</strong>
-          <small>نسخة شكلية أولية</small>
+          <strong>Orders First</strong>
+          <small>Phone-friendly layout</small>
         </div>
       </div>
     </aside>
@@ -58,17 +39,16 @@
         <div class="topbar__left">
           <span class="page-badge">Orders Management</span>
           <h2>الطلبات</h2>
-          <p>إدارة الطلبات اليومية، التوزيع، المتابعة، والإجراءات السريعة.</p>
+          <p>إدارة الطلبات، تعديل السعر، إعادة التعيين، والإجراءات السريعة.</p>
         </div>
 
         <div class="topbar__right">
           <div class="search-box">
             <span>🔎</span>
-            <input type="text" placeholder="ابحث عن طلب أو سائق..." />
+            <input type="text" placeholder="ابحث عن طلب أو شوفير..." />
           </div>
-
           <button class="btn btn--secondary">تحديث</button>
-          <button class="btn btn--primary">+ طلب جديد</button>
+          <button class="btn btn--primary">+ Manual Order</button>
         </div>
       </header>
 
@@ -76,36 +56,36 @@
         <div class="stat-card">
           <div class="stat-card__icon warning">⏳</div>
           <div class="stat-card__content">
-            <span>طلبات بانتظار التوزيع</span>
+            <span>بانتظار التوزيع</span>
             <strong>12</strong>
-            <small>بحاجة متابعة فورية</small>
+            <small>تحتاج متابعة</small>
           </div>
         </div>
 
         <div class="stat-card">
           <div class="stat-card__icon primary">📦</div>
           <div class="stat-card__content">
-            <span>طلبات قيد التوصيل</span>
+            <span>قيد التوصيل</span>
             <strong>27</strong>
-            <small>نشطة حاليًا</small>
+            <small>طلبات نشطة</small>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card__icon purple">💲</div>
+          <div class="stat-card__content">
+            <span>Pending Price</span>
+            <strong>2</strong>
+            <small>بانتظار قرار الأدمن</small>
           </div>
         </div>
 
         <div class="stat-card">
           <div class="stat-card__icon success">🛵</div>
           <div class="stat-card__content">
-            <span>السائقون المتاحون</span>
+            <span>الشوفيرات المتاحين</span>
             <strong>8</strong>
-            <small>جاهزون للاستلام</small>
-          </div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-card__icon info">✅</div>
-          <div class="stat-card__content">
-            <span>طلبات مكتملة اليوم</span>
-            <strong>41</strong>
-            <small>ملخص الأداء اليومي</small>
+            <small>جاهزين للاستلام</small>
           </div>
         </div>
       </section>
@@ -116,109 +96,105 @@
             <div class="card__header">
               <div>
                 <h3>قائمة الطلبات</h3>
-                <p>عرض الطلبات مع تبويبات واضحة وإجراءات سريعة.</p>
+                <p>واجهة أساسية واضحة ومناسبة للهاتف.</p>
               </div>
 
               <div class="tabs">
                 <button class="tab active">الكل</button>
-                <button class="tab">بانتظار التوزيع</button>
-                <button class="tab">قيد التوصيل</button>
-                <button class="tab">مكتمل</button>
-                <button class="tab">ملغي</button>
+                <button class="tab">Waiting</button>
+                <button class="tab">Active</button>
+                <button class="tab">Pending Price</button>
+                <button class="tab">Completed</button>
+                <button class="tab">Canceled</button>
               </div>
             </div>
 
-            <div class="table-wrapper">
-              <table class="orders-table">
-                <thead>
-                  <tr>
-                    <th>Order ID</th>
-                    <th>المنطقة</th>
-                    <th>السائق</th>
-                    <th>السعر</th>
-                    <th>الحالة</th>
-                    <th>الوقت</th>
-                    <th>إجراءات</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>#1045</td>
-                    <td>الحمرا</td>
-                    <td>علي حسن</td>
-                    <td>$8</td>
-                    <td><span class="status-badge status-badge--warning">Waiting</span></td>
-                    <td>12:40</td>
-                    <td>
-                      <div class="table-actions">
-                        <button class="btn btn--soft">عرض</button>
-                        <button class="btn btn--soft">إعادة تعيين</button>
-                        <button class="btn btn--soft">📍 الموقع</button>
-                      </div>
-                    </td>
-                  </tr>
+            <div class="orders-list">
+              <article class="order-card selected">
+                <div class="order-card__top">
+                  <div>
+                    <strong>#1045</strong>
+                    <span class="order-card__area">الحمرا</span>
+                  </div>
+                  <span class="status-badge status-badge--warning">Waiting</span>
+                </div>
 
-                  <tr>
-                    <td>#1044</td>
-                    <td>فردان</td>
-                    <td>حسن رمضان</td>
-                    <td>$10</td>
-                    <td><span class="status-badge status-badge--primary">Active</span></td>
-                    <td>12:31</td>
-                    <td>
-                      <div class="table-actions">
-                        <button class="btn btn--soft">عرض</button>
-                        <button class="btn btn--soft">إتمام</button>
-                        <button class="btn btn--soft">📍 الموقع</button>
-                      </div>
-                    </td>
-                  </tr>
+                <div class="order-card__meta">
+                  <span>الشوفير: علي حسن</span>
+                  <span>السعر: $8</span>
+                  <span>12:40</span>
+                </div>
 
-                  <tr>
-                    <td>#1043</td>
-                    <td>رأس بيروت</td>
-                    <td>—</td>
-                    <td>$8</td>
-                    <td><span class="status-badge status-badge--warning">Waiting</span></td>
-                    <td>12:20</td>
-                    <td>
-                      <div class="table-actions">
-                        <button class="btn btn--soft">عرض</button>
-                        <button class="btn btn--soft">تعيين</button>
-                        <button class="btn btn--soft">📍 الموقع</button>
-                      </div>
-                    </td>
-                  </tr>
+                <div class="order-card__actions">
+                  <button class="btn btn--soft">عرض</button>
+                  <button class="btn btn--soft">إعادة تعيين</button>
+                  <button class="btn btn--soft">📍 الموقع</button>
+                </div>
+              </article>
 
-                  <tr>
-                    <td>#1042</td>
-                    <td>مار الياس</td>
-                    <td>محمد خالد</td>
-                    <td>$6</td>
-                    <td><span class="status-badge status-badge--success">Completed</span></td>
-                    <td>11:58</td>
-                    <td>
-                      <div class="table-actions">
-                        <button class="btn btn--soft">تفاصيل</button>
-                      </div>
-                    </td>
-                  </tr>
+              <article class="order-card">
+                <div class="order-card__top">
+                  <div>
+                    <strong>#1044</strong>
+                    <span class="order-card__area">فردان</span>
+                  </div>
+                  <span class="status-badge status-badge--primary">Active</span>
+                </div>
 
-                  <tr>
-                    <td>#1041</td>
-                    <td>المزرعة</td>
-                    <td>كريم شحادة</td>
-                    <td>$8</td>
-                    <td><span class="status-badge status-badge--danger">Canceled</span></td>
-                    <td>11:42</td>
-                    <td>
-                      <div class="table-actions">
-                        <button class="btn btn--soft">تفاصيل</button>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                <div class="order-card__meta">
+                  <span>الشوفير: حسن رمضان</span>
+                  <span>السعر: $10</span>
+                  <span>12:31</span>
+                </div>
+
+                <div class="order-card__actions">
+                  <button class="btn btn--soft">عرض</button>
+                  <button class="btn btn--soft">إتمام</button>
+                  <button class="btn btn--soft">📍 الموقع</button>
+                </div>
+              </article>
+
+              <article class="order-card">
+                <div class="order-card__top">
+                  <div>
+                    <strong>#1043</strong>
+                    <span class="order-card__area">رأس بيروت</span>
+                  </div>
+                  <span class="status-badge status-badge--purple">Pending Price</span>
+                </div>
+
+                <div class="order-card__meta">
+                  <span>الشوفير: محمد خالد</span>
+                  <span>الحالي: $8 → المطلوب: $10</span>
+                  <span>12:20</span>
+                </div>
+
+                <div class="order-card__actions">
+                  <button class="btn btn--soft">عرض</button>
+                  <button class="btn btn--soft">Approve</button>
+                  <button class="btn btn--soft">Reject</button>
+                </div>
+              </article>
+
+              <article class="order-card">
+                <div class="order-card__top">
+                  <div>
+                    <strong>#1042</strong>
+                    <span class="order-card__area">مار الياس</span>
+                  </div>
+                  <span class="status-badge status-badge--success">Completed</span>
+                </div>
+
+                <div class="order-card__meta">
+                  <span>الشوفير: كريم شحادة</span>
+                  <span>السعر: $6</span>
+                  <span>11:58</span>
+                </div>
+
+                <div class="order-card__actions">
+                  <button class="btn btn--soft">تفاصيل</button>
+                </div>
+              </article>
             </div>
           </div>
         </section>
@@ -228,7 +204,7 @@
             <div class="card__header simple">
               <div>
                 <h3>تفاصيل الطلب</h3>
-                <p>واجهة جاهزة للربط لاحقًا مع الكور.</p>
+                <p>يفتح عند الضغط على الطلب.</p>
               </div>
             </div>
 
@@ -237,27 +213,22 @@
                 <span>Order ID</span>
                 <strong>#1045</strong>
               </div>
-
               <div class="details-row">
                 <span>المنطقة</span>
                 <strong>الحمرا</strong>
               </div>
-
               <div class="details-row">
-                <span>السائق</span>
+                <span>الشوفير</span>
                 <strong>علي حسن</strong>
               </div>
-
               <div class="details-row">
                 <span>السعر</span>
                 <strong>$8</strong>
               </div>
-
               <div class="details-row">
                 <span>الحالة</span>
                 <strong>Waiting</strong>
               </div>
-
               <div class="details-row">
                 <span>ملاحظة</span>
                 <strong>اتصال قبل الوصول</strong>
@@ -265,10 +236,45 @@
             </div>
 
             <div class="details-actions">
-              <button class="btn btn--primary btn--block">إعادة تعيين السائق</button>
+              <button class="btn btn--primary btn--block">إعادة تعيين شوفير</button>
               <button class="btn btn--secondary btn--block">تعديل السعر</button>
               <button class="btn btn--soft btn--block">📍 فتح الموقع</button>
               <button class="btn btn--danger btn--block">إلغاء الطلب</button>
+              <button class="btn btn--success btn--block">تم التسليم</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card__header simple">
+              <div>
+                <h3>Pending Price Request</h3>
+                <p>معالجة تعديل السعر من الشوفير.</p>
+              </div>
+            </div>
+
+            <div class="details-list">
+              <div class="details-row">
+                <span>Order</span>
+                <strong>#1043</strong>
+              </div>
+              <div class="details-row">
+                <span>Current Price</span>
+                <strong>$8</strong>
+              </div>
+              <div class="details-row">
+                <span>Requested Price</span>
+                <strong>$10</strong>
+              </div>
+              <div class="details-row">
+                <span>Driver</span>
+                <strong>محمد خالد</strong>
+              </div>
+            </div>
+
+            <div class="details-actions">
+              <button class="btn btn--success btn--block">Approve</button>
+              <button class="btn btn--secondary btn--block">Set Price</button>
+              <button class="btn btn--danger btn--block">Reject</button>
             </div>
           </div>
 
@@ -276,7 +282,7 @@
             <div class="card__header simple">
               <div>
                 <h3>السائقون</h3>
-                <p>ملخص سريع للحالة الحالية.</p>
+                <p>ملخص سريع.</p>
               </div>
             </div>
 
@@ -284,7 +290,7 @@
               <div class="mini-list__item">
                 <div>
                   <strong>علي حسن</strong>
-                  <small>1 طلب نشط</small>
+                  <small>وصل 10 طلبات | $82</small>
                 </div>
                 <span class="status-badge status-badge--success-light">Online</span>
               </div>
@@ -292,18 +298,22 @@
               <div class="mini-list__item">
                 <div>
                   <strong>حسن رمضان</strong>
-                  <small>2 طلب نشط</small>
+                  <small>وصل 7 طلبات | $54</small>
                 </div>
-                <span class="status-badge status-badge--success-light">Online</span>
+                <span class="status-badge status-badge--success-light">Busy</span>
               </div>
 
               <div class="mini-list__item">
                 <div>
                   <strong>كريم شحادة</strong>
-                  <small>0 طلب</small>
+                  <small>وصل 4 طلبات | $30</small>
                 </div>
                 <span class="status-badge status-badge--muted">Offline</span>
               </div>
+            </div>
+
+            <div class="details-actions">
+              <button class="btn btn--soft btn--block">Generate Invite Token</button>
             </div>
           </div>
 
@@ -311,7 +321,7 @@
             <div class="card__header simple">
               <div>
                 <h3>التنبيهات</h3>
-                <p>آخر الأحداث المهمة.</p>
+                <p>آخر التنبيهات الواردة.</p>
               </div>
             </div>
 
@@ -325,18 +335,18 @@
               </div>
 
               <div class="alert-row">
-                <span class="alert-dot primary"></span>
+                <span class="alert-dot purple"></span>
                 <div>
-                  <strong>Price request</strong>
-                  <small>طلب تعديل سعر للطلب #1044</small>
+                  <strong>Pending Price Request</strong>
+                  <small>الطلب #1043 بانتظار قرار سعر</small>
                 </div>
               </div>
 
               <div class="alert-row">
-                <span class="alert-dot danger"></span>
+                <span class="alert-dot primary"></span>
                 <div>
-                  <strong>Driver handover alert</strong>
-                  <small>أحد السائقين سلّم أكثر من طلب</small>
+                  <strong>WhatsApp Inquiry</strong>
+                  <small>الزبون ضغط زر استفسار على واتساب</small>
                 </div>
               </div>
             </div>
@@ -345,35 +355,23 @@
           <div class="card">
             <div class="card__header simple">
               <div>
-                <h3>الإعدادات</h3>
-                <p>إعدادات تشغيل أساسية.</p>
+                <h3>الحسابات السريعة</h3>
+                <p>ملخص أولي.</p>
               </div>
             </div>
 
             <div class="details-list">
               <div class="details-row">
-                <span>اللغة</span>
-                <strong>العربية</strong>
+                <span>إجمالي الطلبات المسلمة اليوم</span>
+                <strong>21</strong>
               </div>
-
               <div class="details-row">
-                <span>إعادة التوزيع عند عدم القبول</span>
-                <strong>3 دقائق</strong>
+                <span>إجمالي القيمة اليوم</span>
+                <strong>$166</strong>
               </div>
-
               <div class="details-row">
-                <span>إعادة التوزيع عند رفض الجميع</span>
-                <strong>5 دقائق</strong>
-              </div>
-
-              <div class="details-row">
-                <span>الحد الأقصى للطلبات لكل سائق</span>
-                <strong>3</strong>
-              </div>
-
-              <div class="details-row">
-                <span>السعر الافتراضي للطلب</span>
-                <strong>$8</strong>
+                <span>أفضل شوفير اليوم</span>
+                <strong>علي حسن</strong>
               </div>
             </div>
           </div>
