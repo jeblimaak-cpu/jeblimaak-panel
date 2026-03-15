@@ -1,439 +1,258 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jeblimaak Admin Panel</title>
-  <link rel="stylesheet" href="panel.css" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Jeblimaak Admin</title>
+
+  <!-- حط ملفات Tabler هون -->
+  <link href="./assets/css/tabler.min.css" rel="stylesheet"/>
+  <link href="./assets/css/tabler-vendors.min.css" rel="stylesheet"/>
+
+  <style>
+    body{background:#f6f8fb}
+    .app-sidebar{min-height:100vh}
+    .order-card{cursor:pointer}
+    .stat-card .card-body{padding:1rem}
+    .details-actions .btn{margin-bottom:.5rem}
+    .mobile-sticky-actions{position:sticky;bottom:0;background:#fff;padding:.75rem 0}
+  </style>
 </head>
 <body>
-  <div class="app-shell">
-    <aside class="sidebar">
-      <div class="brand">
-        <div class="brand__icon">🛵</div>
-        <div>
-          <h1>Jeblimaak</h1>
-          <p>Dispatch Admin Panel</p>
-        </div>
-      </div>
+  <div class="page">
+    <aside class="navbar navbar-vertical navbar-expand-lg app-sidebar">
+      <div class="container-fluid">
+        <h1 class="navbar-brand navbar-brand-autodark">
+          <a href="#">Jeblimaak</a>
+        </h1>
 
-      <nav class="sidebar-nav" id="sidebarNav">
-        <button class="nav-item active" data-page="orders">📦 <span>الطلبات</span></button>
-        <button class="nav-item" data-page="drivers">🛵 <span>السائقون</span></button>
-        <button class="nav-item" data-page="chats">💬 <span>المحادثات</span></button>
-        <button class="nav-item" data-page="accounting">📒 <span>الحسابات</span></button>
-        <button class="nav-item" data-page="notifications">🔔 <span>التنبيهات</span></button>
-        <button class="nav-item" data-page="settings">⚙️ <span>الإعدادات</span></button>
-      </nav>
-
-      <div class="sidebar-foot">
-        <div class="workspace-card">
-          <span>Workspace</span>
-          <strong>Orders First</strong>
-          <small>Phone-friendly layout</small>
+        <div class="navbar-nav flex-column">
+          <div class="nav-item">
+            <a class="nav-link active" href="#">
+              <span class="nav-link-title">📦 الطلبات</span>
+            </a>
+          </div>
+          <div class="nav-item">
+            <a class="nav-link" href="#">
+              <span class="nav-link-title">🛵 السائقون</span>
+            </a>
+          </div>
+          <div class="nav-item">
+            <a class="nav-link" href="#">
+              <span class="nav-link-title">💬 المحادثات</span>
+            </a>
+          </div>
+          <div class="nav-item">
+            <a class="nav-link" href="#">
+              <span class="nav-link-title">📒 الحسابات</span>
+            </a>
+          </div>
+          <div class="nav-item">
+            <a class="nav-link" href="#">
+              <span class="nav-link-title">🔔 التنبيهات</span>
+            </a>
+          </div>
+          <div class="nav-item">
+            <a class="nav-link" href="#">
+              <span class="nav-link-title">⚙️ الإعدادات</span>
+            </a>
+          </div>
         </div>
       </div>
     </aside>
 
-    <main class="main-content">
-      <!-- ORDERS -->
-      <section class="page active" data-page="orders">
-        <header class="page-header">
-          <div>
-            <span class="eyebrow">Orders Management</span>
-            <h2>الطلبات</h2>
-            <p>إدارة سريعة وواضحة للطلبات اليومية، الأسعار، السائقين، والمحادثات.</p>
+    <div class="page-wrapper">
+      <div class="page-header d-print-none">
+        <div class="container-xl">
+          <div class="row g-2 align-items-center">
+            <div class="col">
+              <h2 class="page-title">الطلبات</h2>
+              <div class="text-secondary">إدارة الطلبات، السعر، الموقع، والمحادثات</div>
+            </div>
+            <div class="col-auto ms-auto d-print-none">
+              <div class="d-flex gap-2">
+                <input class="form-control" placeholder="ابحث عن طلب أو شوفير">
+                <button class="btn btn-primary">+ Manual Order</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-body">
+        <div class="container-xl">
+          <div class="row row-deck row-cards mb-3">
+            <div class="col-6 col-md-3">
+              <div class="card stat-card">
+                <div class="card-body">
+                  <div class="text-secondary">بانتظار التوزيع</div>
+                  <div class="h1 m-0">5</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6 col-md-3">
+              <div class="card stat-card">
+                <div class="card-body">
+                  <div class="text-secondary">قيد التوصيل</div>
+                  <div class="h1 m-0">12</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6 col-md-3">
+              <div class="card stat-card">
+                <div class="card-body">
+                  <div class="text-secondary">Pending Price</div>
+                  <div class="h1 m-0">2</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6 col-md-3">
+              <div class="card stat-card">
+                <div class="card-body">
+                  <div class="text-secondary">الشوفيرات المتاحين</div>
+                  <div class="h1 m-0">4</div>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div class="header-actions">
-            <label class="search-box">
-              <span>🔎</span>
-              <input type="text" id="orderSearch" placeholder="ابحث عن طلب أو منطقة أو شوفير" />
-            </label>
-            <button class="btn btn-secondary" id="refreshOrdersBtn">تحديث</button>
-            <button class="btn btn-primary" id="openManualOrderBtn">+ Manual Order</button>
+          <div class="row row-cards">
+            <div class="col-lg-7">
+              <div class="card">
+                <div class="card-header">
+                  <ul class="nav nav-pills card-header-pills" id="orderTabs">
+                    <li class="nav-item"><a class="nav-link active" href="#">All</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Waiting</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Active</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Pending Price</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Completed</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Canceled</a></li>
+                  </ul>
+                </div>
+
+                <div class="list-group list-group-flush">
+                  <div class="list-group-item order-card active" data-order="1045">
+                    <div class="row align-items-center">
+                      <div class="col">
+                        <div class="fw-bold">#1045</div>
+                        <div class="text-secondary">الحمرا · علي حسن</div>
+                      </div>
+                      <div class="col-auto text-end">
+                        <div class="badge bg-warning-lt">Waiting</div>
+                        <div class="mt-1">$8.00</div>
+                        <div class="text-secondary small">1:15 PM</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="list-group-item order-card" data-order="1044">
+                    <div class="row align-items-center">
+                      <div class="col">
+                        <div class="fw-bold">#1044</div>
+                        <div class="text-secondary">فردان · حسن رمضان</div>
+                      </div>
+                      <div class="col-auto text-end">
+                        <div class="badge bg-blue-lt">Active</div>
+                        <div class="mt-1">$10.50</div>
+                        <div class="text-secondary small">12:50 PM</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="list-group-item order-card" data-order="1043">
+                    <div class="row align-items-center">
+                      <div class="col">
+                        <div class="fw-bold">#1043</div>
+                        <div class="text-secondary">رأس بيروت · محمد خالد</div>
+                        <div class="mt-2 d-flex gap-2 flex-wrap">
+                          <span class="badge bg-purple-lt">Pending Price</span>
+                          <span class="text-secondary">$8 → $10</span>
+                        </div>
+                      </div>
+                      <div class="col-auto">
+                        <button class="btn btn-sm btn-outline-primary">View Order</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="list-group-item order-card" data-order="1042">
+                    <div class="row align-items-center">
+                      <div class="col">
+                        <div class="fw-bold">#1042</div>
+                        <div class="text-secondary">مار الياس · كريم شحادة</div>
+                      </div>
+                      <div class="col-auto text-end">
+                        <div class="badge bg-green-lt">Completed</div>
+                        <div class="mt-1">$6.00</div>
+                        <div class="text-secondary small">11:45 AM</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-5">
+              <div class="card mb-3">
+                <div class="card-header">
+                  <h3 class="card-title mb-0">تفاصيل الطلب</h3>
+                </div>
+                <div class="card-body">
+                  <div class="row mb-2"><div class="col text-secondary">Order ID</div><div class="col-auto fw-bold" id="detailOrderId">#1045</div></div>
+                  <div class="row mb-2"><div class="col text-secondary">المنطقة</div><div class="col-auto fw-bold" id="detailArea">الحمرا</div></div>
+                  <div class="row mb-2"><div class="col text-secondary">الشوفير</div><div class="col-auto fw-bold" id="detailDriver">علي حسن</div></div>
+                  <div class="row mb-2"><div class="col text-secondary">السعر</div><div class="col-auto fw-bold" id="detailPrice">$8.00</div></div>
+                  <div class="row mb-2"><div class="col text-secondary">الحالة</div><div class="col-auto fw-bold" id="detailStatus">Waiting</div></div>
+                  <div class="row mb-2"><div class="col text-secondary">الوقت</div><div class="col-auto fw-bold" id="detailTime">1:15 PM</div></div>
+                  <div class="row"><div class="col text-secondary">ملاحظات</div><div class="col-auto fw-bold" id="detailNotes">اتصال قبل الوصول</div></div>
+                </div>
+                <div class="card-footer details-actions">
+                  <button class="btn btn-outline-primary w-100">إعادة تعيين شوفير</button>
+                  <button class="btn btn-outline-primary w-100">تعديل السعر</button>
+                  <button class="btn btn-outline-primary w-100">💬 View Chat</button>
+                  <button class="btn btn-outline-primary w-100">📍 Open Location</button>
+                  <button class="btn btn-danger w-100">إلغاء الطلب</button>
+                  <button class="btn btn-success w-100">تم التسليم</button>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title mb-0">Pending Price Request</h3>
+                </div>
+                <div class="card-body">
+                  <div class="row mb-2"><div class="col text-secondary">Order</div><div class="col-auto fw-bold">#1043</div></div>
+                  <div class="row mb-2"><div class="col text-secondary">Current Price</div><div class="col-auto fw-bold">$8</div></div>
+                  <div class="row mb-2"><div class="col text-secondary">Requested Price</div><div class="col-auto fw-bold">$10</div></div>
+                  <div class="row"><div class="col text-secondary">Driver</div><div class="col-auto fw-bold">محمد خالد</div></div>
+                </div>
+                <div class="card-footer">
+                  <button class="btn btn-outline-primary w-100 mb-2">View Order</button>
+                  <div class="row g-2">
+                    <div class="col-6"><button class="btn btn-success w-100">Approve</button></div>
+                    <div class="col-6"><button class="btn btn-outline-primary w-100">Set Price</button></div>
+                  </div>
+                  <button class="btn btn-danger w-100 mt-2">Reject</button>
+                </div>
+              </div>
+            </div>
           </div>
-        </header>
-
-        <section class="stats-grid">
-          <article class="stat-card">
-            <div class="stat-icon warn">⏳</div>
-            <div>
-              <span>بانتظار التوزيع</span>
-              <strong id="waitingCount">0</strong>
-              <small>تحتاج متابعة</small>
-            </div>
-          </article>
-
-          <article class="stat-card">
-            <div class="stat-icon primary">📦</div>
-            <div>
-              <span>قيد التوصيل</span>
-              <strong id="activeCount">0</strong>
-              <small>طلبات نشطة</small>
-            </div>
-          </article>
-
-          <article class="stat-card">
-            <div class="stat-icon purple">💲</div>
-            <div>
-              <span>Pending Price</span>
-              <strong id="pendingPriceCount">0</strong>
-              <small>بانتظار قرار</small>
-            </div>
-          </article>
-
-          <article class="stat-card">
-            <div class="stat-icon success">🛵</div>
-            <div>
-              <span>الشوفيرات المتاحين</span>
-              <strong id="availableDriversCount">0</strong>
-              <small>جاهزين للاستلام</small>
-            </div>
-          </article>
-        </section>
-
-        <div class="content-grid">
-          <section class="panel">
-            <div class="panel-header">
-              <div>
-                <h3>قائمة الطلبات</h3>
-                <p>اضغط على أي طلب لرؤية التفاصيل والإجراءات.</p>
-              </div>
-
-              <div class="tabs" id="orderTabs">
-                <button class="tab active" data-filter="ALL">All</button>
-                <button class="tab" data-filter="WAITING">Waiting</button>
-                <button class="tab" data-filter="ACTIVE">Active</button>
-                <button class="tab" data-filter="PENDING_PRICE">Pending Price</button>
-                <button class="tab" data-filter="COMPLETED">Completed</button>
-                <button class="tab" data-filter="CANCELED">Canceled</button>
-              </div>
-            </div>
-
-            <div class="order-list" id="orderList"></div>
-          </section>
-
-          <aside class="side-stack">
-            <section class="panel">
-              <div class="panel-header simple">
-                <div>
-                  <h3>تفاصيل الطلب</h3>
-                  <p>يفتح عند اختيار طلب.</p>
-                </div>
-              </div>
-
-              <div class="detail-list">
-                <div class="detail-row"><span>Order ID</span><strong id="detailOrderId">—</strong></div>
-                <div class="detail-row"><span>المنطقة</span><strong id="detailArea">—</strong></div>
-                <div class="detail-row"><span>الشوفير</span><strong id="detailDriver">—</strong></div>
-                <div class="detail-row"><span>السعر</span><strong id="detailPrice">—</strong></div>
-                <div class="detail-row"><span>الحالة</span><strong id="detailStatus">—</strong></div>
-                <div class="detail-row"><span>الوقت</span><strong id="detailTime">—</strong></div>
-                <div class="detail-row"><span>ملاحظات</span><strong id="detailNotes">—</strong></div>
-              </div>
-
-              <div class="action-grid">
-                <button class="btn btn-soft" id="reassignDriverBtn">إعادة تعيين شوفير</button>
-                <button class="btn btn-soft" id="updatePriceBtn">تعديل السعر</button>
-                <button class="btn btn-soft" id="viewChatBtn">💬 View Chat</button>
-                <button class="btn btn-soft" id="openLocationBtn">📍 Open Location</button>
-                <button class="btn btn-danger" id="cancelOrderBtn">إلغاء الطلب</button>
-                <button class="btn btn-success" id="markDeliveredBtn">تم التسليم</button>
-              </div>
-            </section>
-
-            <section class="panel" id="pendingPricePanel">
-              <div class="panel-header simple">
-                <div>
-                  <h3>Pending Price Request</h3>
-                  <p>طلبات تعديل السعر من الشوفير.</p>
-                </div>
-              </div>
-
-              <div class="detail-list">
-                <div class="detail-row"><span>Order</span><strong id="priceReqOrder">—</strong></div>
-                <div class="detail-row"><span>Current Price</span><strong id="priceReqCurrent">—</strong></div>
-                <div class="detail-row"><span>Requested Price</span><strong id="priceReqRequested">—</strong></div>
-                <div class="detail-row"><span>Driver</span><strong id="priceReqDriver">—</strong></div>
-              </div>
-
-              <div class="action-col">
-                <button class="btn btn-soft" id="viewOrderFromPriceBtn">View Order</button>
-                <div class="two-col">
-                  <button class="btn btn-success" id="approvePriceBtn">Approve</button>
-                  <button class="btn btn-soft" id="setPriceBtn">Set Price</button>
-                </div>
-                <button class="btn btn-danger" id="rejectPriceBtn">Reject</button>
-              </div>
-            </section>
-          </aside>
         </div>
       </section>
 
-      <!-- DRIVERS -->
-      <section class="page" data-page="drivers">
-        <header class="page-header">
-          <div>
-            <span class="eyebrow">Drivers</span>
-            <h2>السائقون</h2>
-            <p>إدارة الشوفيرات، حالاتهم، وأرشفتهم.</p>
-          </div>
-
-          <div class="header-actions">
-            <button class="btn btn-primary" id="generateDriverTokenBtn">Generate Invite Token</button>
-          </div>
-        </header>
-
-        <div class="content-grid">
-          <section class="panel">
-            <div class="panel-header">
-              <div>
-                <h3>قائمة السائقين</h3>
-                <p>اضغط على السائق لرؤية التفاصيل.</p>
-              </div>
-
-              <div class="tabs" id="driverTabs">
-                <button class="tab active" data-driver-filter="ALL">All</button>
-                <button class="tab" data-driver-filter="ONLINE">Online</button>
-                <button class="tab" data-driver-filter="BUSY">Busy</button>
-                <button class="tab" data-driver-filter="DISABLED">Disabled</button>
-                <button class="tab" data-driver-filter="ARCHIVED">Archived</button>
-              </div>
-            </div>
-
-            <div class="driver-list" id="driverList"></div>
-          </section>
-
-          <aside class="side-stack">
-            <section class="panel">
-              <div class="panel-header simple">
-                <div>
-                  <h3>تفاصيل السائق</h3>
-                  <p>معلومات وإجراءات السائق المحدد.</p>
-                </div>
-              </div>
-
-              <div class="detail-list">
-                <div class="detail-row"><span>الاسم</span><strong id="driverName">—</strong></div>
-                <div class="detail-row"><span>Telegram ID</span><strong id="driverTelegramId">—</strong></div>
-                <div class="detail-row"><span>الحالة</span><strong id="driverStatus">—</strong></div>
-                <div class="detail-row"><span>الطلبات الحالية</span><strong id="driverCurrentOrders">—</strong></div>
-                <div class="detail-row"><span>عدد الطلبات اليوم</span><strong id="driverDeliveredToday">—</strong></div>
-                <div class="detail-row"><span>إجمالي القيمة</span><strong id="driverTotalValue">—</strong></div>
-              </div>
-
-              <div class="action-col">
-                <button class="btn btn-secondary" id="toggleDriverBtn">Disable</button>
-                <button class="btn btn-danger" id="archiveDriverBtn">Archive</button>
-              </div>
-            </section>
-
-            <section class="panel">
-              <div class="panel-header simple">
-                <div>
-                  <h3>Invite Token</h3>
-                  <p>توكن إضافة شوفير جديد.</p>
-                </div>
-              </div>
-
-              <div class="token-box" id="inviteTokenBox">tkn_83hd82hs82</div>
-            </section>
-          </aside>
-        </div>
-      </section>
-
-      <!-- CHATS -->
-      <section class="page" data-page="chats">
-        <header class="page-header">
-          <div>
-            <span class="eyebrow">Chats</span>
-            <h2>المحادثات</h2>
-            <p>محادثات مرتبطة بالطلبات بين الزبون والشوفير.</p>
-          </div>
-        </header>
-
-        <div class="content-grid">
-          <section class="panel">
-            <div class="panel-header simple">
-              <div>
-                <h3>قائمة المحادثات</h3>
-                <p>كل محادثة مربوطة بطلب.</p>
-              </div>
-            </div>
-
-            <div class="chat-list" id="chatList"></div>
-          </section>
-
-          <aside class="side-stack">
-            <section class="panel">
-              <div class="panel-header simple">
-                <div>
-                  <h3>تفاصيل المحادثة</h3>
-                  <p>معاينة الرسائل المرتبطة بالطلب.</p>
-                </div>
-              </div>
-
-              <div class="detail-list">
-                <div class="detail-row"><span>Order</span><strong id="chatOrder">—</strong></div>
-                <div class="detail-row"><span>الزبون</span><strong id="chatCustomer">—</strong></div>
-                <div class="detail-row"><span>الشوفير</span><strong id="chatDriver">—</strong></div>
-              </div>
-
-              <div class="messages-box" id="messagesBox"></div>
-
-              <div class="action-col">
-                <button class="btn btn-soft" id="chatViewOrderBtn">View Order</button>
-              </div>
-            </section>
-          </aside>
-        </div>
-      </section>
-
-      <!-- ACCOUNTING -->
-      <section class="page" data-page="accounting">
-        <header class="page-header">
-          <div>
-            <span class="eyebrow">Accounting</span>
-            <h2>الحسابات</h2>
-            <p>سجل الشوفيرات والسجل العام للطلبات للمحاسبة اليومية.</p>
-          </div>
-        </header>
-
-        <div class="double-panels">
-          <section class="panel">
-            <div class="panel-header simple">
-              <div>
-                <h3>سجل الشوفيرات</h3>
-                <p>قديش وصل كل شوفير وقدي قيمتهم.</p>
-              </div>
-            </div>
-
-            <div class="ledger" id="driverLedger"></div>
-          </section>
-
-          <section class="panel">
-            <div class="panel-header simple">
-              <div>
-                <h3>السجل العام للطلبات</h3>
-                <p>مرجع عام للحسابات.</p>
-              </div>
-            </div>
-
-            <div class="ledger" id="ordersLedger"></div>
-          </section>
-        </div>
-      </section>
-
-      <!-- NOTIFICATIONS -->
-      <section class="page" data-page="notifications">
-        <header class="page-header">
-          <div>
-            <span class="eyebrow">Notifications</span>
-            <h2>التنبيهات</h2>
-            <p>آخر التنبيهات والأحداث المهمة داخل النظام.</p>
-          </div>
-        </header>
-
-        <section class="panel">
-          <div class="alerts" id="notificationList"></div>
-        </section>
-      </section>
-
-      <!-- SETTINGS -->
-      <section class="page" data-page="settings">
-        <header class="page-header">
-          <div>
-            <span class="eyebrow">Settings</span>
-            <h2>الإعدادات</h2>
-            <p>إعدادات التشغيل الأساسية للبانل والنظام.</p>
-          </div>
-        </header>
-
-        <section class="panel">
-          <div class="form-grid">
-            <label class="field">
-              <span>اللغة</span>
-              <select id="settingLanguage">
-                <option value="ar">العربية</option>
-                <option value="en">English</option>
-              </select>
-            </label>
-
-            <label class="field">
-              <span>إعادة التوزيع عند عدم القبول (دقائق)</span>
-              <input type="number" id="settingNoAccept" value="3" />
-            </label>
-
-            <label class="field">
-              <span>إعادة التوزيع عند رفض الجميع (دقائق)</span>
-              <input type="number" id="settingAllRefused" value="5" />
-            </label>
-
-            <label class="field">
-              <span>الحد الأقصى للطلبات لكل سائق</span>
-              <input type="number" id="settingMaxOrders" value="3" />
-            </label>
-
-            <label class="field">
-              <span>السعر الافتراضي للطلب</span>
-              <input type="number" id="settingDefaultPrice" value="8" />
-            </label>
-          </div>
-
-          <div class="settings-actions">
-            <button class="btn btn-primary" id="saveSettingsBtn">حفظ الإعدادات</button>
-          </div>
-        </section>
-      </section>
+      <!-- باقي الصفحات placeholders -->
+      <section class="page" data-page="drivers"><div class="container-xl"><div class="alert alert-info mt-4">Drivers page</div></div></section>
+      <section class="page" data-page="chats"><div class="container-xl"><div class="alert alert-info mt-4">Chats page</div></div></section>
+      <section class="page" data-page="accounting"><div class="container-xl"><div class="alert alert-info mt-4">Accounting page</div></div></section>
+      <section class="page" data-page="notifications"><div class="container-xl"><div class="alert alert-info mt-4">Notifications page</div></div></section>
+      <section class="page" data-page="settings"><div class="container-xl"><div class="alert alert-info mt-4">Settings page</div></div></section>
     </main>
   </div>
 
-  <div class="modal" id="manualOrderModal">
-    <div class="modal-card">
-      <div class="modal-head">
-        <h3>Manual Order</h3>
-        <button class="icon-btn" id="closeManualOrderModal">✕</button>
-      </div>
-
-      <div class="form-grid">
-        <label class="field">
-          <span>المنطقة</span>
-          <input type="text" id="manualArea" placeholder="مثلاً: Hamra" />
-        </label>
-
-        <label class="field">
-          <span>الموقع</span>
-          <input type="text" id="manualLocation" placeholder="Google Maps link or Lat,Lng" />
-        </label>
-
-        <label class="field">
-          <span>السعر</span>
-          <input type="number" id="manualPrice" placeholder="8" />
-        </label>
-
-        <label class="field field--full">
-          <span>ملاحظات</span>
-          <textarea id="manualNotes" placeholder="ملاحظات داخلية أو ملاحظة الزبون"></textarea>
-        </label>
-
-        <label class="field">
-          <span>هاتف الزبون (اختياري)</span>
-          <input type="text" id="manualPhone" placeholder="+961..." />
-        </label>
-      </div>
-
-      <div class="settings-actions">
-        <button class="btn btn-primary" id="createManualOrderBtn">Create Order</button>
-      </div>
-    </div>
-  </div>
-
+  <script src="./assets/js/tabler.min.js"></script>
   <script src="panel.js"></script>
 </body>
 </html>
-'''
-
-(base / 'index.html').write_text(html, encoding='utf-8')
-print("Wrote index.html")
-print(base / 'index.html')
