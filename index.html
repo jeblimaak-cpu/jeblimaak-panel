@@ -7,294 +7,380 @@
   <link rel="stylesheet" href="panel.css" />
 </head>
 <body>
-  <div class="app-shell">
+  <div class="layout">
     <aside class="sidebar">
-      <div class="brand">
-        <div class="brand__logo">🛵</div>
-        <div class="brand__text">
+      <div class="sidebar__brand">
+        <div class="sidebar__logo">🛵</div>
+        <div>
           <h1>Jeblimaak</h1>
           <p>Delivery Admin Panel</p>
         </div>
       </div>
 
       <nav class="sidebar__nav">
-        <a href="#" class="nav-link active">🏠 <span>لوحة التحكم</span></a>
-        <a href="#" class="nav-link">📦 <span>الطلبات</span></a>
-        <a href="#" class="nav-link">🛵 <span>السائقون</span></a>
-        <a href="#" class="nav-link">🔔 <span>التنبيهات</span></a>
-        <a href="#" class="nav-link">⚙️ <span>الإعدادات</span></a>
+        <a href="#" class="nav-item">
+          <span class="nav-item__icon">🏠</span>
+          <span>لوحة التحكم</span>
+        </a>
+
+        <a href="#" class="nav-item active">
+          <span class="nav-item__icon">📦</span>
+          <span>الطلبات</span>
+        </a>
+
+        <a href="#" class="nav-item">
+          <span class="nav-item__icon">🛵</span>
+          <span>السائقون</span>
+        </a>
+
+        <a href="#" class="nav-item">
+          <span class="nav-item__icon">🔔</span>
+          <span>التنبيهات</span>
+        </a>
+
+        <a href="#" class="nav-item">
+          <span class="nav-item__icon">⚙️</span>
+          <span>الإعدادات</span>
+        </a>
       </nav>
 
       <div class="sidebar__footer">
-        <div class="mini-card">
-          <span class="mini-card__label">Status</span>
-          <strong>Panel Preview</strong>
+        <div class="workspace-card">
+          <span class="workspace-card__label">Workspace</span>
+          <strong>Dispatch Preview</strong>
+          <small>نسخة شكلية أولية</small>
         </div>
       </div>
     </aside>
 
-    <main class="main-content">
+    <main class="main">
       <header class="topbar">
-        <div class="topbar__title">
-          <span class="eyebrow">Admin Overview</span>
-          <h2>لوحة التحكم</h2>
-          <p>تصميم أولي مستوحى من Tabler ومخصص لمكتب دليفيري.</p>
+        <div class="topbar__left">
+          <span class="page-badge">Orders Management</span>
+          <h2>الطلبات</h2>
+          <p>إدارة الطلبات اليومية، التوزيع، المتابعة، والإجراءات السريعة.</p>
         </div>
 
-        <div class="topbar__actions">
+        <div class="topbar__right">
           <div class="search-box">
-            <span class="search-box__icon">🔎</span>
-            <input type="text" placeholder="بحث سريع..." />
+            <span>🔎</span>
+            <input type="text" placeholder="ابحث عن طلب أو سائق..." />
           </div>
+
+          <button class="btn btn--secondary">تحديث</button>
           <button class="btn btn--primary">+ طلب جديد</button>
         </div>
       </header>
 
-      <section class="stats-grid">
-        <article class="stat-card">
-          <div class="stat-card__icon stat-card__icon--warning">⏳</div>
+      <section class="stats-row">
+        <div class="stat-card">
+          <div class="stat-card__icon warning">⏳</div>
           <div class="stat-card__content">
-            <span class="stat-card__label">طلبات بانتظار التوزيع</span>
-            <h3>12</h3>
-            <small>بحاجة متابعة سريعة</small>
+            <span>طلبات بانتظار التوزيع</span>
+            <strong>12</strong>
+            <small>بحاجة متابعة فورية</small>
           </div>
-        </article>
+        </div>
 
-        <article class="stat-card">
-          <div class="stat-card__icon stat-card__icon--primary">📦</div>
+        <div class="stat-card">
+          <div class="stat-card__icon primary">📦</div>
           <div class="stat-card__content">
-            <span class="stat-card__label">طلبات قيد التوصيل</span>
-            <h3>27</h3>
-            <small>نشطة الآن</small>
+            <span>طلبات قيد التوصيل</span>
+            <strong>27</strong>
+            <small>نشطة حاليًا</small>
           </div>
-        </article>
+        </div>
 
-        <article class="stat-card">
-          <div class="stat-card__icon stat-card__icon--success">🛵</div>
+        <div class="stat-card">
+          <div class="stat-card__icon success">🛵</div>
           <div class="stat-card__content">
-            <span class="stat-card__label">السائقون المتاحون</span>
-            <h3>8</h3>
+            <span>السائقون المتاحون</span>
+            <strong>8</strong>
             <small>جاهزون للاستلام</small>
           </div>
-        </article>
+        </div>
 
-        <article class="stat-card">
-          <div class="stat-card__icon stat-card__icon--info">✅</div>
+        <div class="stat-card">
+          <div class="stat-card__icon info">✅</div>
           <div class="stat-card__content">
-            <span class="stat-card__label">طلبات مكتملة اليوم</span>
-            <h3>41</h3>
-            <small>أداء اليوم</small>
+            <span>طلبات مكتملة اليوم</span>
+            <strong>41</strong>
+            <small>ملخص الأداء اليومي</small>
           </div>
-        </article>
+        </div>
       </section>
 
-      <section class="dashboard-grid">
-        <section class="panel-card panel-card--wide">
-          <div class="panel-card__header">
-            <div>
-              <h3>الطلبات</h3>
-              <p>واجهة أولية لجدول الطلبات.</p>
+      <section class="content-grid">
+        <section class="content-main">
+          <div class="card">
+            <div class="card__header">
+              <div>
+                <h3>قائمة الطلبات</h3>
+                <p>عرض الطلبات مع تبويبات واضحة وإجراءات سريعة.</p>
+              </div>
+
+              <div class="tabs">
+                <button class="tab active">الكل</button>
+                <button class="tab">بانتظار التوزيع</button>
+                <button class="tab">قيد التوصيل</button>
+                <button class="tab">مكتمل</button>
+                <button class="tab">ملغي</button>
+              </div>
             </div>
 
-            <div class="tabs">
-              <button class="tab active">All</button>
-              <button class="tab">Waiting</button>
-              <button class="tab">Active</button>
-              <button class="tab">Completed</button>
-              <button class="tab">Canceled</button>
+            <div class="table-wrapper">
+              <table class="orders-table">
+                <thead>
+                  <tr>
+                    <th>Order ID</th>
+                    <th>المنطقة</th>
+                    <th>السائق</th>
+                    <th>السعر</th>
+                    <th>الحالة</th>
+                    <th>الوقت</th>
+                    <th>إجراءات</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>#1045</td>
+                    <td>الحمرا</td>
+                    <td>علي حسن</td>
+                    <td>$8</td>
+                    <td><span class="status-badge status-badge--warning">Waiting</span></td>
+                    <td>12:40</td>
+                    <td>
+                      <div class="table-actions">
+                        <button class="btn btn--soft">عرض</button>
+                        <button class="btn btn--soft">إعادة تعيين</button>
+                        <button class="btn btn--soft">📍 الموقع</button>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>#1044</td>
+                    <td>فردان</td>
+                    <td>حسن رمضان</td>
+                    <td>$10</td>
+                    <td><span class="status-badge status-badge--primary">Active</span></td>
+                    <td>12:31</td>
+                    <td>
+                      <div class="table-actions">
+                        <button class="btn btn--soft">عرض</button>
+                        <button class="btn btn--soft">إتمام</button>
+                        <button class="btn btn--soft">📍 الموقع</button>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>#1043</td>
+                    <td>رأس بيروت</td>
+                    <td>—</td>
+                    <td>$8</td>
+                    <td><span class="status-badge status-badge--warning">Waiting</span></td>
+                    <td>12:20</td>
+                    <td>
+                      <div class="table-actions">
+                        <button class="btn btn--soft">عرض</button>
+                        <button class="btn btn--soft">تعيين</button>
+                        <button class="btn btn--soft">📍 الموقع</button>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>#1042</td>
+                    <td>مار الياس</td>
+                    <td>محمد خالد</td>
+                    <td>$6</td>
+                    <td><span class="status-badge status-badge--success">Completed</span></td>
+                    <td>11:58</td>
+                    <td>
+                      <div class="table-actions">
+                        <button class="btn btn--soft">تفاصيل</button>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>#1041</td>
+                    <td>المزرعة</td>
+                    <td>كريم شحادة</td>
+                    <td>$8</td>
+                    <td><span class="status-badge status-badge--danger">Canceled</span></td>
+                    <td>11:42</td>
+                    <td>
+                      <div class="table-actions">
+                        <button class="btn btn--soft">تفاصيل</button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-          </div>
-
-          <div class="table-wrap">
-            <table class="orders-table">
-              <thead>
-                <tr>
-                  <th>Order ID</th>
-                  <th>المنطقة</th>
-                  <th>السائق</th>
-                  <th>الحالة</th>
-                  <th>الوقت</th>
-                  <th>إجراءات</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>#1045</td>
-                  <td>الحمرا</td>
-                  <td>علي حسن</td>
-                  <td><span class="badge badge--warning">Waiting</span></td>
-                  <td>12:40</td>
-                  <td>
-                    <div class="table-actions">
-                      <a href="#" class="btn btn--soft">عرض</a>
-                      <a href="#" class="btn btn--soft">إعادة تعيين</a>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>#1044</td>
-                  <td>فردان</td>
-                  <td>حسن رمضان</td>
-                  <td><span class="badge badge--primary">Active</span></td>
-                  <td>12:31</td>
-                  <td>
-                    <div class="table-actions">
-                      <a href="#" class="btn btn--soft">عرض</a>
-                      <a href="#" class="btn btn--soft">إتمام</a>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>#1043</td>
-                  <td>رأس بيروت</td>
-                  <td>—</td>
-                  <td><span class="badge badge--warning">Waiting</span></td>
-                  <td>12:20</td>
-                  <td>
-                    <div class="table-actions">
-                      <a href="#" class="btn btn--soft">عرض</a>
-                      <a href="#" class="btn btn--soft">فتح الموقع</a>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>#1042</td>
-                  <td>مار الياس</td>
-                  <td>محمد خالد</td>
-                  <td><span class="badge badge--success">Completed</span></td>
-                  <td>11:58</td>
-                  <td>
-                    <div class="table-actions">
-                      <a href="#" class="btn btn--soft">تفاصيل</a>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
           </div>
         </section>
 
-        <aside class="dashboard-side">
-          <section class="panel-card">
-            <div class="panel-card__header panel-card__header--simple">
+        <aside class="content-side">
+          <div class="card">
+            <div class="card__header simple">
+              <div>
+                <h3>تفاصيل الطلب</h3>
+                <p>واجهة جاهزة للربط لاحقًا مع الكور.</p>
+              </div>
+            </div>
+
+            <div class="details-list">
+              <div class="details-row">
+                <span>Order ID</span>
+                <strong>#1045</strong>
+              </div>
+
+              <div class="details-row">
+                <span>المنطقة</span>
+                <strong>الحمرا</strong>
+              </div>
+
+              <div class="details-row">
+                <span>السائق</span>
+                <strong>علي حسن</strong>
+              </div>
+
+              <div class="details-row">
+                <span>السعر</span>
+                <strong>$8</strong>
+              </div>
+
+              <div class="details-row">
+                <span>الحالة</span>
+                <strong>Waiting</strong>
+              </div>
+
+              <div class="details-row">
+                <span>ملاحظة</span>
+                <strong>اتصال قبل الوصول</strong>
+              </div>
+            </div>
+
+            <div class="details-actions">
+              <button class="btn btn--primary btn--block">إعادة تعيين السائق</button>
+              <button class="btn btn--secondary btn--block">تعديل السعر</button>
+              <button class="btn btn--soft btn--block">📍 فتح الموقع</button>
+              <button class="btn btn--danger btn--block">إلغاء الطلب</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card__header simple">
               <div>
                 <h3>السائقون</h3>
-                <p>معاينة للشكل العام.</p>
+                <p>ملخص سريع للحالة الحالية.</p>
               </div>
             </div>
 
-            <div class="drivers-list">
-              <div class="driver-item">
+            <div class="mini-list">
+              <div class="mini-list__item">
                 <div>
                   <strong>علي حسن</strong>
-                  <p>1 طلب نشط</p>
+                  <small>1 طلب نشط</small>
                 </div>
-                <span class="badge badge--success-light">Online</span>
+                <span class="status-badge status-badge--success-light">Online</span>
               </div>
 
-              <div class="driver-item">
+              <div class="mini-list__item">
                 <div>
                   <strong>حسن رمضان</strong>
-                  <p>2 طلب نشط</p>
+                  <small>2 طلب نشط</small>
                 </div>
-                <span class="badge badge--success-light">Online</span>
+                <span class="status-badge status-badge--success-light">Online</span>
               </div>
 
-              <div class="driver-item">
+              <div class="mini-list__item">
                 <div>
                   <strong>كريم شحادة</strong>
-                  <p>0 طلب</p>
+                  <small>0 طلب</small>
                 </div>
-                <span class="badge badge--muted">Offline</span>
+                <span class="status-badge status-badge--muted">Offline</span>
               </div>
             </div>
-          </section>
+          </div>
 
-          <section class="panel-card">
-            <div class="panel-card__header panel-card__header--simple">
+          <div class="card">
+            <div class="card__header simple">
               <div>
                 <h3>التنبيهات</h3>
-                <p>شكل سجل التنبيهات.</p>
+                <p>آخر الأحداث المهمة.</p>
               </div>
             </div>
 
-            <div class="alerts-list">
-              <div class="alert-item">
-                <span class="alert-dot alert-dot--warning"></span>
+            <div class="alerts">
+              <div class="alert-row">
+                <span class="alert-dot warning"></span>
                 <div>
                   <strong>Redispatch round 2</strong>
-                  <p>الطلب #1045 أُعيد توزيعه</p>
+                  <small>الطلب #1045 أُعيد توزيعه</small>
                 </div>
               </div>
 
-              <div class="alert-item">
-                <span class="alert-dot alert-dot--info"></span>
+              <div class="alert-row">
+                <span class="alert-dot primary"></span>
                 <div>
                   <strong>Price request</strong>
-                  <p>طلب تعديل سعر للطلب #1044</p>
+                  <small>طلب تعديل سعر للطلب #1044</small>
                 </div>
               </div>
 
-              <div class="alert-item">
-                <span class="alert-dot alert-dot--danger"></span>
+              <div class="alert-row">
+                <span class="alert-dot danger"></span>
                 <div>
                   <strong>Driver handover alert</strong>
-                  <p>سائق قام بتسليم عدة طلبات اليوم</p>
+                  <small>أحد السائقين سلّم أكثر من طلب</small>
                 </div>
               </div>
             </div>
-          </section>
+          </div>
 
-          <section class="panel-card">
-            <div class="panel-card__header panel-card__header--simple">
+          <div class="card">
+            <div class="card__header simple">
               <div>
                 <h3>الإعدادات</h3>
-                <p>إعدادات أولية قابلة للربط لاحقًا مع الكور.</p>
+                <p>إعدادات تشغيل أساسية.</p>
               </div>
             </div>
 
-            <div class="settings-preview">
-              <div class="setting-row">
+            <div class="details-list">
+              <div class="details-row">
                 <span>اللغة</span>
                 <strong>العربية</strong>
               </div>
 
-              <div class="setting-row">
+              <div class="details-row">
                 <span>إعادة التوزيع عند عدم القبول</span>
-                <strong>3 min</strong>
+                <strong>3 دقائق</strong>
               </div>
 
-              <div class="setting-row">
+              <div class="details-row">
                 <span>إعادة التوزيع عند رفض الجميع</span>
-                <strong>5 min</strong>
+                <strong>5 دقائق</strong>
               </div>
 
-              <div class="setting-row">
+              <div class="details-row">
                 <span>الحد الأقصى للطلبات لكل سائق</span>
                 <strong>3</strong>
               </div>
 
-              <div class="setting-row">
+              <div class="details-row">
                 <span>السعر الافتراضي للطلب</span>
                 <strong>$8</strong>
               </div>
             </div>
-          </section>
+          </div>
         </aside>
       </section>
     </main>
   </div>
-
-  <nav class="mobile-nav">
-    <a href="#" class="active">🏠 <span>الرئيسية</span></a>
-    <a href="#">📦 <span>الطلبات</span></a>
-    <a href="#">🛵 <span>السائقون</span></a>
-    <a href="#">🔔 <span>التنبيهات</span></a>
-    <a href="#">⚙️ <span>الإعدادات</span></a>
-  </nav>
 
   <script src="panel.js"></script>
 </body>
