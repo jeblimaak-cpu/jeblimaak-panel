@@ -1,356 +1,293 @@
-<!doctype html>
-<html lang="en" dir="ltr">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <title>Jeblimaak Admin (Prototype)</title>
-  <link rel="stylesheet" href="./panel.css"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jeblimaak Admin Panel</title>
+  <link rel="stylesheet" href="panel.css" />
 </head>
 <body>
-  <!-- Lock screen -->
-  <div class="lock" id="lock">
-    <div class="lock-card">
-      <div class="lock-badge">Jeblimaak Admin</div>
-      <h1>Admin Locked</h1>
-      <p class="muted">Enter Admin Secret to open the panel (prototype).</p>
-
-      <div class="field">
-        <label>Admin Secret</label>
-        <input id="secretInput" class="input" type="password" placeholder="••••••••" autocomplete="current-password"/>
-      </div>
-
-      <div class="row">
-        <button class="btn primary" id="unlockBtn">Unlock</button>
-        <button class="btn" id="demoBtn" title="Use demo secret">Use Demo Secret</button>
-      </div>
-
-      <p class="hint muted">
-        Tip: demo secret is <code>demo123</code> (you can change it later).
-      </p>
-    </div>
-  </div>
-
-  <!-- App -->
-  <div class="app" id="app" aria-hidden="true">
-    <!-- Topbar -->
-    <header class="topbar">
+  <div class="app-shell">
+    <aside class="sidebar">
       <div class="brand">
-        <div class="dot"></div>
-        <div>
-          <div class="brand-title">Jeblimaak Admin</div>
-          <div class="brand-sub muted" id="sessionState">Locked</div>
+        <div class="brand__logo">🛵</div>
+        <div class="brand__text">
+          <h1>Jeblimaak</h1>
+          <p>Delivery Admin Panel</p>
         </div>
       </div>
 
-      <div class="top-actions">
-        <button class="btn" id="compactBtn" title="Phone-friendly compact layout">Compact</button>
-        <button class="btn" id="lockBtn">Lock</button>
+      <nav class="sidebar__nav">
+        <a href="#" class="nav-link active">🏠 <span>لوحة التحكم</span></a>
+        <a href="#" class="nav-link">📦 <span>الطلبات</span></a>
+        <a href="#" class="nav-link">🛵 <span>السائقون</span></a>
+        <a href="#" class="nav-link">🔔 <span>التنبيهات</span></a>
+        <a href="#" class="nav-link">⚙️ <span>الإعدادات</span></a>
+      </nav>
+
+      <div class="sidebar__footer">
+        <div class="mini-card">
+          <span class="mini-card__label">Status</span>
+          <strong>Panel Preview</strong>
+        </div>
       </div>
-    </header>
+    </aside>
 
-    <!-- Tabs -->
-    <nav class="tabs" role="tablist">
-      <button class="tab active" data-tab="orders" role="tab">Orders</button>
-      <button class="tab" data-tab="chat" role="tab">Chat</button>
-      <button class="tab" data-tab="drivers" role="tab">Drivers</button>
-      <button class="tab" data-tab="settings" role="tab">Settings</button>
-      <button class="tab" data-tab="maps" role="tab">Maps</button>
-    </nav>
-
-    <!-- Main -->
-    <main class="panel">
-      <!-- ORDERS -->
-      <section id="orders" class="section">
-        <div class="grid2">
-          <div class="card">
-            <div class="card-head">
-              <div>
-                <div class="card-title">Orders</div>
-                <div class="muted">Prototype list + filters</div>
-              </div>
-
-              <div class="row right">
-                <input id="orderSearch" class="input" placeholder="Search by ID / name…" />
-                <button class="btn" id="refreshOrders">Refresh</button>
-              </div>
-            </div>
-
-            <div class="subtabs" role="tablist" aria-label="Order Tabs">
-              <button class="subtab active" data-otab="ACTIVE">Active</button>
-              <button class="subtab" data-otab="WAITING">Waiting</button>
-              <button class="subtab" data-otab="COMPLETED">Completed</button>
-              <button class="subtab" data-otab="CANCELED">Canceled</button>
-            </div>
-
-            <div class="table-wrap" id="ordersTable"></div>
-          </div>
-
-          <div class="stack">
-            <div class="card">
-              <div class="card-head">
-                <div>
-                  <div class="card-title">Price Update Requests</div>
-                  <div class="muted">Show pending price updates</div>
-                </div>
-                <button class="btn" id="refreshPriceReq">Refresh</button>
-              </div>
-              <div id="priceReqList"></div>
-            </div>
-
-            <div class="card">
-              <div class="card-head">
-                <div>
-                  <div class="card-title">Quick Actions</div>
-                  <div class="muted">UI only (no backend yet)</div>
-                </div>
-              </div>
-
-              <div class="quick">
-                <button class="btn primary" id="createManualOrderBtn">+ Manual Order</button>
-                <button class="btn" id="openChatFromOrderBtn">Open Chat</button>
-                <button class="btn danger" id="cancelOrderBtn">Cancel Order</button>
-              </div>
-
-              <div class="muted" style="margin-top:10px">
-                These actions are placeholders until we connect the Core API.
-              </div>
-            </div>
-          </div>
+    <main class="main-content">
+      <header class="topbar">
+        <div class="topbar__title">
+          <span class="eyebrow">Admin Overview</span>
+          <h2>لوحة التحكم</h2>
+          <p>تصميم أولي مستوحى من Tabler ومخصص لمكتب دليفيري.</p>
         </div>
+
+        <div class="topbar__actions">
+          <div class="search-box">
+            <span class="search-box__icon">🔎</span>
+            <input type="text" placeholder="بحث سريع..." />
+          </div>
+          <button class="btn btn--primary">+ طلب جديد</button>
+        </div>
+      </header>
+
+      <section class="stats-grid">
+        <article class="stat-card">
+          <div class="stat-card__icon stat-card__icon--warning">⏳</div>
+          <div class="stat-card__content">
+            <span class="stat-card__label">طلبات بانتظار التوزيع</span>
+            <h3>12</h3>
+            <small>بحاجة متابعة سريعة</small>
+          </div>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-card__icon stat-card__icon--primary">📦</div>
+          <div class="stat-card__content">
+            <span class="stat-card__label">طلبات قيد التوصيل</span>
+            <h3>27</h3>
+            <small>نشطة الآن</small>
+          </div>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-card__icon stat-card__icon--success">🛵</div>
+          <div class="stat-card__content">
+            <span class="stat-card__label">السائقون المتاحون</span>
+            <h3>8</h3>
+            <small>جاهزون للاستلام</small>
+          </div>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-card__icon stat-card__icon--info">✅</div>
+          <div class="stat-card__content">
+            <span class="stat-card__label">طلبات مكتملة اليوم</span>
+            <h3>41</h3>
+            <small>أداء اليوم</small>
+          </div>
+        </article>
       </section>
 
-      <!-- CHAT -->
-      <section id="chat" class="section hidden">
-        <div class="gridChat">
-          <div class="card chatList">
-            <div class="card-head">
-              <div>
-                <div class="card-title">Chats</div>
-                <div class="muted">Orders with conversations</div>
-              </div>
-              <button class="btn" id="refreshChats">Refresh</button>
-            </div>
-
-            <input id="chatSearch" class="input full" placeholder="Search chats…" />
-            <div id="chatList"></div>
-          </div>
-
-          <div class="card chatWindow">
-            <div class="chatHead">
-              <div class="avatar" id="chatAvatar">J</div>
-              <div class="chatMeta">
-                <div class="chatTitle" id="chatTitle">Select a chat</div>
-                <div class="chatSub muted" id="chatSub">—</div>
-              </div>
-
-              <div class="row right">
-                <button class="btn" id="rtlBtn">RTL</button>
-                <button class="btn" id="ltrBtn">LTR</button>
-              </div>
-            </div>
-
-            <div class="messages" id="messages">
-              <div class="empty muted">Pick an order chat from the left.</div>
-            </div>
-
-            <div class="composer">
-              <input id="msgInput" class="input full" placeholder="Type a message (prototype)…" />
-              <button class="btn primary" id="sendBtn">Send</button>
-            </div>
-
-            <div class="muted small" style="margin-top:8px">
-              In the real version: messages will show WhatsApp inbox/outbox events for that order.
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- DRIVERS -->
-      <section id="drivers" class="section hidden">
-        <div class="grid2">
-          <div class="card">
-            <div class="card-head">
-              <div>
-                <div class="card-title">Drivers</div>
-                <div class="muted">Enable / Off / Archive (UI)</div>
-              </div>
-              <div class="row right">
-                <select id="driversScope" class="input">
-                  <option value="all">All</option>
-                  <option value="active">Active</option>
-                  <option value="off">Off</option>
-                  <option value="archived">Archived</option>
-                </select>
-                <button class="btn" id="refreshDrivers">Refresh</button>
-                <button class="btn primary" id="addDriverBtn">+ Add</button>
-              </div>
-            </div>
-
-            <div class="table-wrap" id="driversTable"></div>
-          </div>
-
-          <div class="card">
-            <div class="card-head">
-              <div>
-                <div class="card-title">Invites</div>
-                <div class="muted">Single-use invites (UI)</div>
-              </div>
-            </div>
-
-            <div class="field">
-              <label>TTL (minutes)</label>
-              <input id="inviteTtl" class="input" type="number" min="5" value="1440" />
-            </div>
-
-            <button class="btn primary" id="genInviteBtn">Generate Invite</button>
-            <div id="inviteBox" class="muted" style="margin-top:10px"></div>
-          </div>
-        </div>
-
-        <!-- Modal -->
-        <div class="modal" id="addDriverModal" aria-hidden="true">
-          <div class="modal-overlay"></div>
-          <div class="modal-card">
-            <h3>Add Driver</h3>
-            <input id="drvName" class="input" placeholder="Name" />
-            <input id="drvChatId" class="input" placeholder="Telegram Chat ID" />
-            <input id="drvUser" class="input" placeholder="Telegram username (optional)" />
-            <div class="row right">
-              <button class="btn" id="closeDriverModal">Cancel</button>
-              <button class="btn primary" id="saveDriverBtn">Save</button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SETTINGS -->
-      <section id="settings" class="section hidden">
-        <div class="grid2">
-          <div class="card">
-            <div class="card-head">
-              <div>
-                <div class="card-title">System Settings</div>
-                <div class="muted">Prototype controls (stored locally)</div>
-              </div>
-            </div>
-
-            <div class="settings">
-              <div class="setting">
-                <div>
-                  <div class="setting-title">Manual Mode</div>
-                  <div class="muted">Office creates & controls dispatch manually</div>
-                </div>
-                <label class="switch">
-                  <input type="checkbox" id="manualMode"/>
-                  <span class="slider"></span>
-                </label>
-              </div>
-
-              <div class="setting">
-                <div>
-                  <div class="setting-title">Max active orders per driver</div>
-                  <div class="muted">Limit how many orders a driver can claim</div>
-                </div>
-                <input id="maxOrders" class="input smallInput" type="number" min="1" max="10" value="3"/>
-              </div>
-
-              <hr class="sep"/>
-
-              <div class="setting">
-                <div>
-                  <div class="setting-title">Redispatch timings (Rounds)</div>
-                  <div class="muted">Per order: No reply / All refused</div>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="field grow">
-                  <label>No reply after (minutes)</label>
-                  <input id="noReplyMin" class="input" type="number" min="1" value="3"/>
-                </div>
-                <div class="field grow">
-                  <label>All refused after (minutes)</label>
-                  <input id="allRefusedMin" class="input" type="number" min="1" value="5"/>
-                </div>
-              </div>
-
-              <div class="row right">
-                <button class="btn" id="resetSettings">Reset</button>
-                <button class="btn primary" id="saveSettings">Save</button>
-              </div>
-
-              <div class="muted small">
-                Later when we connect Core: these will map to DB settings or env + apply to redispatch logic.
-              </div>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-head">
-              <div>
-                <div class="card-title">Security</div>
-                <div class="muted">Admin Secret session protection</div>
-              </div>
-            </div>
-
-            <div class="field">
-              <label>Auto-lock after inactivity (minutes)</label>
-              <input id="autoLockMin" class="input" type="number" min="1" value="10"/>
-            </div>
-
-            <div class="row right">
-              <button class="btn danger" id="clearSessionBtn">Clear session</button>
-            </div>
-
-            <div class="muted small">
-              In real panel: we’ll keep secret in memory only + require re-enter after timeout.
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- MAPS -->
-      <section id="maps" class="section hidden">
-        <div class="card">
-          <div class="card-head">
+      <section class="dashboard-grid">
+        <section class="panel-card panel-card--wide">
+          <div class="panel-card__header">
             <div>
-              <div class="card-title">Maps Tracking (Coming Soon)</div>
-              <div class="muted">Placeholder for live driver locations + routes</div>
+              <h3>الطلبات</h3>
+              <p>واجهة أولية لجدول الطلبات.</p>
+            </div>
+
+            <div class="tabs">
+              <button class="tab active">All</button>
+              <button class="tab">Waiting</button>
+              <button class="tab">Active</button>
+              <button class="tab">Completed</button>
+              <button class="tab">Canceled</button>
             </div>
           </div>
 
-          <div class="mapsPlaceholder">
-            <div class="mapBox">
-              <div class="muted">Map widget placeholder</div>
-              <div class="muted small">Later: Google Maps / Mapbox + driver tracking</div>
+          <div class="table-wrap">
+            <table class="orders-table">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>المنطقة</th>
+                  <th>السائق</th>
+                  <th>الحالة</th>
+                  <th>الوقت</th>
+                  <th>إجراءات</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>#1045</td>
+                  <td>الحمرا</td>
+                  <td>علي حسن</td>
+                  <td><span class="badge badge--warning">Waiting</span></td>
+                  <td>12:40</td>
+                  <td>
+                    <div class="table-actions">
+                      <a href="#" class="btn btn--soft">عرض</a>
+                      <a href="#" class="btn btn--soft">إعادة تعيين</a>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>#1044</td>
+                  <td>فردان</td>
+                  <td>حسن رمضان</td>
+                  <td><span class="badge badge--primary">Active</span></td>
+                  <td>12:31</td>
+                  <td>
+                    <div class="table-actions">
+                      <a href="#" class="btn btn--soft">عرض</a>
+                      <a href="#" class="btn btn--soft">إتمام</a>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>#1043</td>
+                  <td>رأس بيروت</td>
+                  <td>—</td>
+                  <td><span class="badge badge--warning">Waiting</span></td>
+                  <td>12:20</td>
+                  <td>
+                    <div class="table-actions">
+                      <a href="#" class="btn btn--soft">عرض</a>
+                      <a href="#" class="btn btn--soft">فتح الموقع</a>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>#1042</td>
+                  <td>مار الياس</td>
+                  <td>محمد خالد</td>
+                  <td><span class="badge badge--success">Completed</span></td>
+                  <td>11:58</td>
+                  <td>
+                    <div class="table-actions">
+                      <a href="#" class="btn btn--soft">تفاصيل</a>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <aside class="dashboard-side">
+          <section class="panel-card">
+            <div class="panel-card__header panel-card__header--simple">
+              <div>
+                <h3>السائقون</h3>
+                <p>معاينة للشكل العام.</p>
+              </div>
             </div>
 
-            <div class="mapSide">
-              <div class="card miniCard">
-                <div class="card-title">Tracking</div>
-                <div class="muted">No data yet</div>
+            <div class="drivers-list">
+              <div class="driver-item">
+                <div>
+                  <strong>علي حسن</strong>
+                  <p>1 طلب نشط</p>
+                </div>
+                <span class="badge badge--success-light">Online</span>
               </div>
-              <div class="card miniCard">
-                <div class="card-title">Geofences</div>
-                <div class="muted">No data yet</div>
+
+              <div class="driver-item">
+                <div>
+                  <strong>حسن رمضان</strong>
+                  <p>2 طلب نشط</p>
+                </div>
+                <span class="badge badge--success-light">Online</span>
               </div>
-              <div class="card miniCard">
-                <div class="card-title">ETA</div>
-                <div class="muted">No data yet</div>
+
+              <div class="driver-item">
+                <div>
+                  <strong>كريم شحادة</strong>
+                  <p>0 طلب</p>
+                </div>
+                <span class="badge badge--muted">Offline</span>
               </div>
             </div>
-          </div>
-        </div>
+          </section>
+
+          <section class="panel-card">
+            <div class="panel-card__header panel-card__header--simple">
+              <div>
+                <h3>التنبيهات</h3>
+                <p>شكل سجل التنبيهات.</p>
+              </div>
+            </div>
+
+            <div class="alerts-list">
+              <div class="alert-item">
+                <span class="alert-dot alert-dot--warning"></span>
+                <div>
+                  <strong>Redispatch round 2</strong>
+                  <p>الطلب #1045 أُعيد توزيعه</p>
+                </div>
+              </div>
+
+              <div class="alert-item">
+                <span class="alert-dot alert-dot--info"></span>
+                <div>
+                  <strong>Price request</strong>
+                  <p>طلب تعديل سعر للطلب #1044</p>
+                </div>
+              </div>
+
+              <div class="alert-item">
+                <span class="alert-dot alert-dot--danger"></span>
+                <div>
+                  <strong>Driver handover alert</strong>
+                  <p>سائق قام بتسليم عدة طلبات اليوم</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel-card">
+            <div class="panel-card__header panel-card__header--simple">
+              <div>
+                <h3>الإعدادات</h3>
+                <p>شكل أولي فقط.</p>
+              </div>
+            </div>
+
+            <div class="settings-preview">
+              <div class="setting-row">
+                <span>Language</span>
+                <strong>Arabic</strong>
+              </div>
+              <div class="setting-row">
+                <span>عدم القبول</span>
+                <strong>3 min</strong>
+              </div>
+              <div class="setting-row">
+                <span>رفض الجميع</span>
+                <strong>5 min</strong>
+              </div>
+              <div class="setting-row">
+                <span>Max orders / driver</span>
+                <strong>3</strong>
+              </div>
+            </div>
+          </section>
+        </aside>
       </section>
     </main>
-
-    <!-- Toast -->
-    <div class="toast" id="toast"></div>
   </div>
 
-  <script src="./panel.js"></script>
+  <nav class="mobile-nav">
+    <a href="#" class="active">🏠 <span>الرئيسية</span></a>
+    <a href="#">📦 <span>الطلبات</span></a>
+    <a href="#">🛵 <span>السائقون</span></a>
+    <a href="#">🔔 <span>التنبيهات</span></a>
+    <a href="#">⚙️ <span>الإعدادات</span></a>
+  </nav>
+
+  <script src="panel.js"></script>
 </body>
 </html>
-
