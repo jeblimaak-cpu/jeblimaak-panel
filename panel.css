@@ -1010,3 +1010,55 @@ button,input,textarea,select{
     grid-template-columns:1fr;
   }
 }
+.panel-lock{
+  position:fixed;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:rgba(15,23,42,.55);
+  backdrop-filter:blur(6px);
+  z-index:2000;
+}
+
+.panel-lock.active{
+  display:flex;
+}
+
+.panel-lock__card{
+  width:min(100%, 380px);
+  background:white;
+  border-radius:24px;
+  padding:24px;
+  box-shadow:0 24px 48px rgba(15,23,42,.18);
+  text-align:center;
+}
+
+.panel-lock__card h2{
+  margin-bottom:8px;
+}
+
+.panel-lock__card p{
+  color:#6b7280;
+  margin-bottom:16px;
+}
+
+.panel-lock__form{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.panel-lock__form input{
+  border:1px solid #e5e7eb;
+  border-radius:14px;
+  padding:12px 14px;
+  outline:none;
+}
+
+.panel-lock__error{
+  min-height:20px;
+  color:#dc2626;
+  font-size:13px;
+  margin-top:12px;
+}
