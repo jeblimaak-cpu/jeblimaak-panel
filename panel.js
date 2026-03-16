@@ -1,9 +1,6 @@
 (() => {
   const CORE_BASE = "";
-  const ADMIN_SECRET =
-    localStorage.getItem("ADMIN_SECRET") ||
-    window.ADMIN_SECRET ||
-    "";
+  let ADMIN_SECRET = localStorage.getItem("ADMIN_SECRET") || "";
 
   const DEFAULT_ORDER_PRICE = 70000;
 
@@ -41,6 +38,11 @@
   });
 
   function bindElements() {
+    el.panelLock = document.getElementById("panelLock");
+el.panelLockForm = document.getElementById("panelLockForm");
+el.panelSecretInput = document.getElementById("panelSecretInput");
+el.panelLockError = document.getElementById("panelLockError");
+    
     el.views = document.querySelectorAll(".view");
     el.navItems = document.querySelectorAll(".nav-item");
     el.bottomNavItems = document.querySelectorAll(".bottom-nav__item");
@@ -134,6 +136,32 @@
   }
 
   function bindEvents() {
+    if (el.panelLockForm) {
+  el.panelLockForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const secret = String(el.panelSecretInput.value || "").trim();
+    if (!secret) {
+      el.panelLockError.textContent = "اكتب الـ Admin Secret";
+      return;
+    }
+
+    try {
+      localStorage.setItem("ADMIN_SECRET", secret);
+      ADMIN_SECRET = secret;
+
+      await api("/admin/me");
+      el.panelLock.classList.remove("active");
+      el.panelLockError.textContent = "";
+      await bootAfterUnlock();
+    } catch (err) {
+      el.panelLockError.textContent = "Secret غير صحيح";
+      localStorage.removeItem("ADMIN_SECRET");
+      ADMIN_SECRET = "";
+    }
+  });
+}
+    
     el.navItems.forEach((btn) => {
       btn.addEventListener("click", () => setView(btn.dataset.view));
     });
@@ -359,24 +387,42 @@
     });
   }
 
+  async function bootAfterUnlock() {
+  await Promise.all([
+    fetchOrders(),
+    fetchChats(),
+    fetchDrivers(),
+    fetchSettings(),
+  ]);
+  buildNotifications();
+  renderAll();
+}
   async function boot() {
-    try {
-      setView("orders");
-      await Promise.all([
-        fetchOrders(),
-        fetchChats(),
-        fetchDrivers(),
-        fetchSettings(),
-      ]);
-      buildNotifications();
-      renderAll();
-      console.log("panel.js loaded");
-    } catch (err) {
-      console.error(err);
-      alert(`Panel load failed: ${err.message}`);
-    }
-  }
+  try {
+    setView("orders");
 
+    if (!ADMIN_SECRET) {
+      if (el.panelLock) el.panelLock.classList.add("active");
+      return;
+    }
+
+    await api("/admin/me");
+    if (el.panelLock) el.panelLock.classList.remove("active");
+
+    await bootAfterUnlock();
+    console.log("panel.js loaded");
+  } catch (err) {
+    console.error(err);
+    localStorage.removeItem("ADMIN_SECRET");
+    ADMIN_SECRET = "";
+    if (el.panelLock) el.panelLock.classList.add("active");
+  }
+}
+
+  function logoutPanel() {
+  localStorage.removeItem("ADMIN_SECRET");
+  location.reload();
+}
   function renderAll() {
     renderOrders();
     renderPendingPriceBox();
