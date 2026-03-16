@@ -440,3 +440,34 @@ font-weight:600;
 background:white;
 color:#2563eb;
 }
+.order-modal{
+position:fixed;
+inset:0;
+display:none;
+z-index:999;
+}
+
+.order-modal.active{
+display:block;
+}
+
+.order-modal__backdrop{
+position:absolute;
+inset:0;
+background:rgba(15,23,42,.45);
+backdrop-filter:blur(2px);
+}
+
+.order-modal__card{
+position:absolute;
+left:50%;
+bottom:0;
+transform:translateX(-50%);
+width:min(100%,420px);
+background:white;
+border-radius:20px 20px 0 0;
+padding:16px;
+max-height:85vh;
+overflow:auto;
+box-shadow:0 -10px 30px rgba(0,0,0,.15);
+}
