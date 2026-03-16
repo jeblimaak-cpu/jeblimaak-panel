@@ -2,241 +2,393 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Jeblimaak — Admin Panel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jeblimaak Panel</title>
   <link rel="stylesheet" href="panel.css" />
 </head>
 <body>
-
   <div class="layout">
-
-    <!-- Sidebar (Desktop) -->
-    <aside class="sidebar" aria-label="Sidebar">
+    <aside class="sidebar">
       <div class="brand">
-        <div class="brand__logo">🚚</div>
-        <div class="brand__text">
-          <strong>Jeblimaak</strong>
-          <small>Admin Panel</small>
+        <div class="brand-mark">🚚</div>
+        <div>
+          <h2>Jeblimaak</h2>
+          <p>Admin Panel</p>
         </div>
       </div>
 
-      <nav class="side-nav" id="sideNav">
-        <button class="side-item active" data-view="orders">📦 <span>Orders</span></button>
-        <button class="side-item" data-view="chats">💬 <span>Chats</span></button>
-        <button class="side-item" data-view="drivers">🛵 <span>Drivers</span></button>
-        <button class="side-item" data-view="notifications">🔔 <span>Notifications</span></button>
-        <button class="side-item" data-view="settings">⚙️ <span>Settings</span></button>
+      <nav class="sidebar-nav" id="sidebarNav">
+        <button class="nav-item active" data-view="orders">📦 <span>Orders</span></button>
+        <button class="nav-item" data-view="chats">💬 <span>Chats</span></button>
+        <button class="nav-item" data-view="drivers">🛵 <span>Drivers</span></button>
+        <button class="nav-item" data-view="notifications">🔔 <span>Notifications</span></button>
+        <button class="nav-item" data-view="settings">⚙️ <span>Settings</span></button>
       </nav>
-
-      <div class="sidebar-footer">
-        <div class="hint">
-          <span class="dot dot--ok"></span>
-          <div>
-            <strong>Ready</strong>
-            <small>UI Prototype</small>
-          </div>
-        </div>
-      </div>
     </aside>
 
-    <!-- Main -->
-    <main class="main">
-
-      <!-- Topbar -->
+    <main class="main-shell">
       <header class="topbar">
-        <div class="topbar__left">
-          <h1 class="page-title" id="pageTitle">Orders</h1>
-          <div class="page-sub" id="pageSubtitle">إدارة الطلبات والسعر والمحادثات</div>
+        <div>
+          <h1 id="pageTitle">Orders</h1>
+          <p id="pageSubtitle">إدارة الطلبات والسعر والمحادثات</p>
         </div>
 
-        <div class="topbar__right">
-          <div class="search">
-            <span class="search__icon">🔎</span>
-            <input id="globalSearch" type="text" placeholder="ابحث: رقم طلب / اسم / منطقة / سائق" />
+        <div class="topbar-actions">
+          <div class="search-box">
+            <span>🔎</span>
+            <input id="globalSearch" type="text" placeholder="ابحث برقم الطلب، الاسم، المنطقة، السائق..." />
           </div>
 
-          <button class="btn btn--primary" id="openManualOrderBtn">+ Manual Order</button>
+          <button class="primary-btn" id="openManualOrderBtn">+ Manual Order</button>
         </div>
       </header>
 
-      <!-- KPI row -->
-      <section class="kpis" id="kpiRow">
-        <div class="kpi">
-          <div class="kpi__label">All</div>
-          <div class="kpi__value" id="kpiAll">—</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi__label">Waiting</div>
-          <div class="kpi__value" id="kpiWaiting">—</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi__label">Active</div>
-          <div class="kpi__value" id="kpiActive">—</div>
-        </div>
-        <div class="kpi kpi--warn">
-          <div class="kpi__label">Pending Price</div>
-          <div class="kpi__value" id="kpiPending">—</div>
-        </div>
-      </section>
-
-      <!-- Views -->
+      <!-- ORDERS VIEW -->
       <section class="view active" data-view="orders">
+        <section class="stats-grid">
+          <article class="stat-card">
+            <span>All Orders</span>
+            <strong id="kpiAll">0</strong>
+          </article>
+          <article class="stat-card">
+            <span>Waiting</span>
+            <strong id="kpiWaiting">0</strong>
+          </article>
+          <article class="stat-card">
+            <span>Active</span>
+            <strong id="kpiActive">0</strong>
+          </article>
+          <article class="stat-card warning">
+            <span>Pending Price</span>
+            <strong id="kpiPending">0</strong>
+          </article>
+        </section>
 
-        <div class="panel">
-          <div class="panel__head">
-            <div class="tabs" id="orderTabs">
-              <button class="tab active" data-filter="ALL">All <span class="badge" id="allCount">0</span></button>
-              <button class="tab" data-filter="WAITING">Waiting <span class="badge" id="waitingCount">0</span></button>
-              <button class="tab" data-filter="ACTIVE">Active <span class="badge" id="activeCount">0</span></button>
-              <button class="tab" data-filter="PENDING_PRICE">Pending Price <span class="badge" id="pendingPriceCount">0</span></button>
-              <button class="tab" data-filter="COMPLETED">Completed <span class="badge" id="completedCount">0</span></button>
-              <button class="tab" data-filter="CANCELED">Canceled <span class="badge" id="canceledCount">0</span></button>
+        <section class="panel-card">
+          <div class="panel-head">
+            <div class="tabs-row" id="orderTabs">
+              <button class="tab-btn active" data-filter="ALL">All <span class="tab-badge" id="allCount">0</span></button>
+              <button class="tab-btn" data-filter="WAITING">Waiting <span class="tab-badge" id="waitingCount">0</span></button>
+              <button class="tab-btn" data-filter="ACTIVE">Active <span class="tab-badge" id="activeCount">0</span></button>
+              <button class="tab-btn" data-filter="PENDING_PRICE">Pending Price <span class="tab-badge" id="pendingPriceCount">0</span></button>
+              <button class="tab-btn" data-filter="COMPLETED">Completed <span class="tab-badge" id="completedCount">0</span></button>
+              <button class="tab-btn" data-filter="CANCELED">Canceled <span class="tab-badge" id="canceledCount">0</span></button>
             </div>
 
-            <div class="panel__actions">
-              <button class="btn btn--soft" id="refreshBtn">↻ Refresh</button>
+            <div class="panel-head-actions">
+              <button class="soft-btn" id="refreshOrdersBtn">↻ Refresh</button>
             </div>
           </div>
 
-          <!-- Desktop table -->
-          <div class="table-wrap" aria-label="Orders table">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Order</th>
-                  <th>Customer</th>
-                  <th>Area</th>
-                  <th>Driver</th>
-                  <th>Price</th>
-                  <th>Status</th>
-                  <th>Updated</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="ordersTbody"></tbody>
-            </table>
+          <div class="orders-grid">
+            <div class="orders-main">
+              <div class="table-wrap desktop-only">
+                <table class="orders-table">
+                  <thead>
+                    <tr>
+                      <th>Order</th>
+                      <th>Customer</th>
+                      <th>Area</th>
+                      <th>Driver</th>
+                      <th>Price</th>
+                      <th>Status</th>
+                      <th>Updated</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="ordersTbody"></tbody>
+                </table>
+              </div>
+
+              <div class="mobile-cards mobile-only" id="ordersCards"></div>
+
+              <div class="empty-state" id="ordersEmpty" hidden>
+                <div class="empty-icon">📭</div>
+                <h3>لا يوجد طلبات</h3>
+                <p>جرّب تغيير الفلتر أو البحث.</p>
+              </div>
+            </div>
+
+            <aside class="side-highlight" id="pendingPriceBox">
+              <div class="side-highlight-head">
+                <h3>Pending Price Request</h3>
+                <small id="pendingPriceOrderId">—</small>
+              </div>
+
+              <div class="detail-line"><span>Current Price</span><strong id="pendingCurrentPrice">—</strong></div>
+              <div class="detail-line"><span>Requested Price</span><strong id="pendingRequestedPrice">—</strong></div>
+              <div class="detail-line"><span>Driver</span><strong id="pendingDriverName">—</strong></div>
+
+              <div class="stack-actions">
+                <button class="soft-btn full-btn" id="pendingViewOrderBtn">View Order</button>
+              </div>
+
+              <div class="dual-actions">
+                <button class="success-btn" id="pendingApproveBtn">Approve</button>
+                <button class="soft-btn" id="pendingSetPriceBtn">Set Price</button>
+              </div>
+
+              <div class="stack-actions">
+                <button class="danger-btn full-btn" id="pendingRejectBtn">Reject</button>
+              </div>
+            </aside>
           </div>
-
-          <!-- Mobile cards -->
-          <div class="cards" id="ordersCards"></div>
-
-          <div class="empty" id="ordersEmpty" hidden>
-            <div class="empty__icon">✅</div>
-            <div class="empty__title">لا يوجد نتائج</div>
-            <div class="empty__sub">جرّب تغيير الفلتر أو البحث.</div>
-          </div>
-        </div>
-
+        </section>
       </section>
 
+      <!-- CHATS VIEW -->
       <section class="view" data-view="chats">
-        <div class="panel">
-          <div class="panel__head">
-            <h2 class="h2">Chats</h2>
-            <div class="panel__actions">
-              <button class="btn btn--soft" disabled>قريباً</button>
+        <section class="panel-card chats-shell">
+          <div class="chat-sidebar">
+            <div class="panel-head compact-head">
+              <h2>Chats</h2>
+              <button class="soft-btn" id="refreshChatsBtn">↻ Refresh</button>
+            </div>
+
+            <div class="chat-search">
+              <input id="chatSearch" type="text" placeholder="ابحث عن طلب أو زبون..." />
+            </div>
+
+            <div class="chat-list" id="chatList"></div>
+          </div>
+
+          <div class="chat-main">
+            <div class="chat-main-empty" id="chatMainEmpty">
+              <div class="empty-icon">💬</div>
+              <h3>اختر محادثة</h3>
+              <p>افتح محادثة من القائمة الجانبية.</p>
+            </div>
+
+            <div class="chat-thread hidden" id="chatThread">
+              <div class="chat-thread-head">
+                <div>
+                  <h3 id="chatThreadTitle">Order #—</h3>
+                  <p id="chatThreadSub">—</p>
+                </div>
+              </div>
+
+              <div class="messages-box" id="messagesBox"></div>
+
+              <form class="chat-compose" id="chatComposeForm">
+                <input id="chatMessageInput" type="text" placeholder="اكتب رسالة..." />
+                <button type="submit" class="primary-btn">Send</button>
+              </form>
             </div>
           </div>
-
-          <div class="placeholder">
-            <strong>محادثات الطلبات</strong>
-            <p>هون رح نعرض chat threads من <code>/admin/chats</code> + فتح chat بالتفاصيل.</p>
-          </div>
-        </div>
+        </section>
       </section>
 
+      <!-- DRIVERS VIEW -->
       <section class="view" data-view="drivers">
-        <div class="panel">
-          <div class="panel__head">
-            <h2 class="h2">Drivers</h2>
-            <div class="panel__actions">
-              <button class="btn btn--primary" id="inviteDriverBtn">+ Invite Driver</button>
-            </div>
+        <section class="panel-card">
+          <div class="panel-head">
+            <h2>Drivers</h2>
+            <button class="primary-btn" id="inviteDriverBtn">+ Invite Driver</button>
           </div>
 
-          <div class="placeholder">
-            <strong>إدارة السائقين</strong>
-            <p>رح نربطها بـ <code>/admin/drivers</code> ونعمل approve/disable/archive.</p>
+          <div class="drivers-toolbar">
+            <button class="filter-chip active" data-scope="all">All</button>
+            <button class="filter-chip" data-scope="active">Active</button>
+            <button class="filter-chip" data-scope="off">Off</button>
+            <button class="filter-chip" data-scope="archived">Archived</button>
           </div>
-        </div>
+
+          <div class="drivers-list" id="driversList"></div>
+        </section>
       </section>
 
+      <!-- NOTIFICATIONS VIEW -->
       <section class="view" data-view="notifications">
-        <div class="panel">
-          <div class="panel__head">
-            <h2 class="h2">Notifications</h2>
-            <div class="panel__actions">
-              <button class="btn btn--soft" disabled>Mark All Read</button>
-            </div>
+        <section class="panel-card">
+          <div class="panel-head">
+            <h2>Notifications</h2>
+            <button class="soft-btn" id="refreshNotificationsBtn">↻ Refresh</button>
           </div>
 
-          <div class="placeholder">
-            <strong>تنبيهات</strong>
-            <p>ممكن نولدها من <code>order_events</code> (redispatch, pending price, WhatsApp, ...)</p>
-          </div>
-        </div>
+          <div class="notifications-list" id="notificationsList"></div>
+        </section>
       </section>
 
+      <!-- SETTINGS VIEW -->
       <section class="view" data-view="settings">
-        <div class="panel">
-          <div class="panel__head">
-            <h2 class="h2">Settings</h2>
-            <div class="panel__actions">
-              <button class="btn btn--soft" disabled>Save</button>
+        <div class="settings-grid">
+          <section class="panel-card">
+            <div class="panel-head">
+              <h2>System Settings</h2>
             </div>
-          </div>
 
-          <div class="placeholder">
-            <strong>Settings</strong>
-            <p>رح نربطها بـ <code>/admin/settings</code> (manual_mode, max orders/driver, redispatch mins...).</p>
-          </div>
+            <form id="settingsForm" class="settings-form">
+              <label class="field-row switch-row">
+                <div>
+                  <strong>Manual Mode</strong>
+                  <small>إذا كان مفعّل، redispatch auto يتوقف</small>
+                </div>
+                <input type="checkbox" id="manualModeInput" />
+              </label>
+
+              <label class="field-row">
+                <span>Max Orders Per Driver</span>
+                <input type="number" id="maxOrdersInput" min="1" />
+              </label>
+
+              <label class="field-row">
+                <span>No Reply Minutes</span>
+                <input type="number" id="noReplyInput" min="1" />
+              </label>
+
+              <label class="field-row">
+                <span>All Refused Minutes</span>
+                <input type="number" id="allRefusedInput" min="1" />
+              </label>
+
+              <label class="field-row">
+                <span>Default Order Price</span>
+                <input type="number" id="defaultPriceInput" min="1" placeholder="70000" />
+              </label>
+
+              <div class="settings-actions">
+                <button type="submit" class="primary-btn">Save Settings</button>
+              </div>
+            </form>
+          </section>
+
+          <section class="panel-card">
+            <div class="panel-head">
+              <h2>Quick Notes</h2>
+            </div>
+
+            <div class="settings-notes">
+              <div class="note-box">
+                <strong>Pending Price</strong>
+                <p>الإدارة تستطيع الموافقة أو الرفض أو تحديد سعر نهائي.</p>
+              </div>
+
+              <div class="note-box">
+                <strong>Manual Order</strong>
+                <p>يمكن إنشاء طلب يدوي مع أو بدون تعيين مباشر لسائق.</p>
+              </div>
+
+              <div class="note-box">
+                <strong>Chats</strong>
+                <p>ترتبط بمسار الطلب وتسمح بإرسال رسالة مباشرة للزبون.</p>
+              </div>
+            </div>
+          </section>
         </div>
       </section>
-
     </main>
   </div>
 
-  <!-- Mobile Bottom Nav -->
-  <nav class="bottom-nav" id="bottomNav" aria-label="Bottom navigation">
-    <button class="bottom-item active" data-view="orders"><span>📦</span><small>Orders</small></button>
-    <button class="bottom-item" data-view="chats"><span>💬</span><small>Chats</small></button>
-    <button class="bottom-item" data-view="drivers"><span>🛵</span><small>Drivers</small></button>
-    <button class="bottom-item" data-view="notifications"><span>🔔</span><small>Alerts</small></button>
-    <button class="bottom-item" data-view="settings"><span>⚙️</span><small>Settings</small></button>
+  <!-- MOBILE NAV -->
+  <nav class="bottom-nav" id="bottomNav">
+    <button class="bottom-nav__item active" data-view="orders"><span>📦</span><small>Orders</small></button>
+    <button class="bottom-nav__item" data-view="chats"><span>💬</span><small>Chats</small></button>
+    <button class="bottom-nav__item" data-view="drivers"><span>🛵</span><small>Drivers</small></button>
+    <button class="bottom-nav__item" data-view="notifications"><span>🔔</span><small>Alerts</small></button>
+    <button class="bottom-nav__item" data-view="settings"><span>⚙️</span><small>Settings</small></button>
   </nav>
 
-  <!-- Order Drawer / Sheet -->
-  <div class="drawer" id="orderDrawer" aria-hidden="true">
-    <div class="drawer__backdrop" id="drawerBackdrop"></div>
-    <div class="drawer__panel" role="dialog" aria-modal="true">
-      <div class="drawer__head">
+  <!-- ORDER DRAWER -->
+  <div class="modal-shell" id="orderDrawer">
+    <div class="modal-backdrop" data-close="orderDrawer"></div>
+    <div class="drawer-card">
+      <div class="drawer-head">
         <div>
-          <h3 class="drawer__title" id="detailOrderTitle">Order #—</h3>
-          <div class="drawer__sub" id="detailStatusLine">—</div>
+          <h2 id="detailOrderTitle">Order #—</h2>
+          <p id="detailStatus">—</p>
         </div>
-        <button class="icon-btn" id="closeDrawerBtn" aria-label="Close">✕</button>
+        <button class="icon-btn" data-close="orderDrawer">✕</button>
       </div>
 
-      <div class="drawer__body">
-        <div class="kv">
-          <div class="kv__row"><span>Area</span><strong id="detailArea">—</strong></div>
-          <div class="kv__row"><span>Customer</span><strong id="detailCustomer">—</strong></div>
-          <div class="kv__row"><span>Driver</span><strong id="detailDriver">—</strong></div>
-          <div class="kv__row"><span>Phone</span><strong id="detailPhone">—</strong></div>
-          <div class="kv__row"><span>Price</span><strong id="detailPrice">—</strong></div>
-          <div class="kv__row"><span>Created</span><strong id="detailCreated">—</strong></div>
-          <div class="kv__row"><span>Notes</span><strong id="detailNotes">—</strong></div>
+      <div class="drawer-body">
+        <div class="details-list">
+          <div class="detail-line"><span>Area</span><strong id="detailArea">—</strong></div>
+          <div class="detail-line"><span>Customer</span><strong id="detailCustomer">—</strong></div>
+          <div class="detail-line"><span>Phone</span><strong id="detailPhone">—</strong></div>
+          <div class="detail-line"><span>Driver</span><strong id="detailDriver">—</strong></div>
+          <div class="detail-line"><span>Price</span><strong id="detailPrice">—</strong></div>
+          <div class="detail-line"><span>Created</span><strong id="detailCreated">—</strong></div>
+          <div class="detail-line"><span>Updated</span><strong id="detailUpdated">—</strong></div>
+          <div class="detail-line"><span>Notes</span><strong id="detailNotes">—</strong></div>
         </div>
 
-        <div class="drawer__actions">
-          <button class="btn btn--soft">📍 Open Location</button>
-          <button class="btn btn--soft">💬 Open Chat</button>
-          <button class="btn btn--soft">🔄 Reassign Driver</button>
-          <button class="btn btn--soft">💰 Update Price</button>
-          <button class="btn btn--danger">❌ Cancel Order</button>
-          <button class="btn btn--success">✅ Mark Delivered</button>
+        <div class="drawer-actions">
+          <button class="soft-btn" id="drawerOpenChatBtn">💬 Open Chat</button>
+          <button class="soft-btn" id="drawerOpenLocationBtn">📍 Open Location</button>
+          <button class="soft-btn" id="drawerUpdatePriceBtn">💰 Update Price</button>
+          <button class="soft-btn" id="drawerReassignBtn">🔄 Reassign Driver</button>
+          <button class="danger-btn" id="drawerCancelOrderBtn">❌ Cancel Order</button>
+          <button class="success-btn" id="drawerDeliveredBtn">✅ Mark Delivered</button>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- MANUAL ORDER MODAL -->
+  <div class="modal-shell" id="manualOrderModal">
+    <div class="modal-backdrop" data-close="manualOrderModal"></div>
+    <div class="modal-card">
+      <div class="drawer-head">
+        <div>
+          <h2>Create Manual Order</h2>
+          <p>أنشئ طلب يدوي من داخل البانل</p>
+        </div>
+        <button class="icon-btn" data-close="manualOrderModal">✕</button>
+      </div>
+
+      <form class="modal-form" id="manualOrderForm">
+        <label>
+          <span>Blob Text</span>
+          <textarea id="manualBlobText" rows="8" placeholder="اسم: علي
+رقم: +96170000000
+عنوان: الحمرا
+طلب: دليفري وجبة
+شوفير: 123456789"></textarea>
+        </label>
+
+        <label>
+          <span>Price (ل.ل)</span>
+          <input type="number" id="manualPriceInput" min="1" placeholder="70000" />
+        </label>
+
+        <label>
+          <span>Assign Driver (اختياري)</span>
+          <select id="manualDriverSelect">
+            <option value="">بدون تعيين</option>
+          </select>
+        </label>
+
+        <div class="modal-actions">
+          <button type="button" class="soft-btn" data-close="manualOrderModal">Cancel</button>
+          <button type="submit" class="primary-btn">Create Order</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- SET PRICE MODAL -->
+  <div class="modal-shell" id="setPriceModal">
+    <div class="modal-backdrop" data-close="setPriceModal"></div>
+    <div class="modal-card small-modal">
+      <div class="drawer-head">
+        <div>
+          <h2>Set Final Price</h2>
+          <p id="setPriceOrderLabel">Order #—</p>
+        </div>
+        <button class="icon-btn" data-close="setPriceModal">✕</button>
+      </div>
+
+      <form class="modal-form" id="setPriceForm">
+        <label>
+          <span>Final Price (ل.ل)</span>
+          <input type="number" id="setPriceInput" min="1" />
+        </label>
+
+        <div class="modal-actions">
+          <button type="button" class="soft-btn" data-close="setPriceModal">Cancel</button>
+          <button type="submit" class="primary-btn">Save Price</button>
+        </div>
+      </form>
     </div>
   </div>
 
