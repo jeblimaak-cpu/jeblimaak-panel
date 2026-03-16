@@ -4,8 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const tabs = document.querySelectorAll(".tab-btn");
   const orderCards = document.querySelectorAll(".order-card");
   const closeOrderSheetBtn = document.getElementById("closeOrderSheetBtn");
-  const orderDetailsSheet = document.getElementById("orderDetailsSheet");
-
+const orderModal = document.getElementById("orderModal");
+const orderModalBackdrop = document.getElementById("orderModalBackdrop");
   const ordersData = {
     "1045": {
       title: "Order #1045",
@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("detailCreated").textContent = order.created;
     document.getElementById("detailNotes").textContent = order.notes;
 
-    orderDetailsSheet.style.display = "block";
+    orderModal.classList.add("active");
   }
 
   navItems.forEach(item => {
@@ -107,11 +107,18 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   if (closeOrderSheetBtn) {
-    closeOrderSheetBtn.addEventListener("click", () => {
-      orderDetailsSheet.style.display = "none";
-      orderCards.forEach(card => card.classList.remove("active"));
-    });
-  }
+  closeOrderSheetBtn.addEventListener("click", () => {
+    orderModal.classList.remove("active");
+    orderCards.forEach(card => card.classList.remove("active"));
+  });
+}
+
+if (orderModalBackdrop) {
+  orderModalBackdrop.addEventListener("click", () => {
+    orderModal.classList.remove("active");
+    orderCards.forEach(card => card.classList.remove("active"));
+  });
+}
 
   openScreen("orders");
   updateOrderDetails("1045");
