@@ -1,91 +1,118 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const screens = document.querySelectorAll(".screen");
+  const navItems = document.querySelectorAll(".bottom-nav__item");
+  const tabs = document.querySelectorAll(".tab-btn");
+  const orderCards = document.querySelectorAll(".order-card");
+  const closeOrderSheetBtn = document.getElementById("closeOrderSheetBtn");
+  const orderDetailsSheet = document.getElementById("orderDetailsSheet");
 
-  /* -------- sidebar navigation -------- */
+  const ordersData = {
+    "1045": {
+      title: "Order #1045",
+      area: "Hamra",
+      driver: "Ali Hassan",
+      price: "$8.00",
+      status: "Waiting",
+      created: "1:15 PM",
+      notes: "Call on arrival"
+    },
+    "1044": {
+      title: "Order #1044",
+      area: "Verdun",
+      driver: "Hassan Ramadan",
+      price: "$10.50",
+      status: "Active",
+      created: "12:50 PM",
+      notes: "Customer waiting outside"
+    },
+    "1043": {
+      title: "Order #1043",
+      area: "Ras Beirut",
+      driver: "Mohammad Khaled",
+      price: "$8.00 → $10.00",
+      status: "Pending Price",
+      created: "12:30 PM",
+      notes: "Driver requested price update"
+    },
+    "1042": {
+      title: "Order #1042",
+      area: "Mar Elias",
+      driver: "Mohammad Khaled",
+      price: "$6.00",
+      status: "Completed",
+      created: "11:45 AM",
+      notes: "Delivered successfully"
+    }
+  };
 
-  const navItems = document.querySelectorAll(".nav-item");
-  const pages = document.querySelectorAll(".page");
-
-  navItems.forEach(btn => {
-    btn.addEventListener("click", () => {
-
-      const page = btn.dataset.page;
-
-      navItems.forEach(n => n.classList.remove("active"));
-      btn.classList.add("active");
-
-      pages.forEach(p => p.classList.remove("active"));
-
-      const target = document.querySelector(`.page[data-page="${page}"]`);
-      if(target) target.classList.add("active");
-
-    });
-  });
-
-
-  /* -------- order selection -------- */
-
-  const orders = document.querySelectorAll(".order-card");
-
-  orders.forEach(card => {
-
-    card.addEventListener("click", () => {
-
-      orders.forEach(o => o.classList.remove("active"));
-      card.classList.add("active");
-
-      const id = card.dataset.order;
-
-      /* demo data */
-
-      if(id === "1045"){
-        updateDetails("#1045","الحمرا","علي حسن","$8.00","Waiting","1:15 PM","اتصال قبل الوصول");
+  function openScreen(screenName) {
+    screens.forEach(screen => {
+      screen.classList.remove("active");
+      if (screen.dataset.screen === screenName) {
+        screen.classList.add("active");
       }
-
-      if(id === "1044"){
-        updateDetails("#1044","فردان","حسن رمضان","$10.50","Active","12:50 PM","بانتظار الزبون");
-      }
-
-      if(id === "1043"){
-        updateDetails("#1043","رأس بيروت","محمد خالد","$8.00","Pending Price","12:30 PM","طلب تعديل السعر");
-      }
-
-      if(id === "1042"){
-        updateDetails("#1042","مار الياس","كريم شحادة","$6.00","Completed","11:45 AM","تم التسليم");
-      }
-
     });
 
-  });
-
-
-  /* -------- update order details -------- */
-
-  function updateDetails(id,area,driver,price,status,time,notes){
-
-    document.getElementById("detailOrderId").textContent = id;
-    document.getElementById("detailArea").textContent = area;
-    document.getElementById("detailDriver").textContent = driver;
-    document.getElementById("detailPrice").textContent = price;
-    document.getElementById("detailStatus").textContent = status;
-    document.getElementById("detailTime").textContent = time;
-    document.getElementById("detailNotes").textContent = notes;
-
+    navItems.forEach(item => {
+      item.classList.remove("active");
+      if (item.dataset.screen === screenName) {
+        item.classList.add("active");
+      }
+    });
   }
 
+  function setActiveTab(clickedTab) {
+    tabs.forEach(tab => tab.classList.remove("active"));
+    clickedTab.classList.add("active");
+  }
 
-  /* -------- order tabs (UI only) -------- */
+  function setActiveOrderCard(clickedCard) {
+    orderCards.forEach(card => card.classList.remove("active"));
+    clickedCard.classList.add("active");
+  }
 
-  const tabs = document.querySelectorAll("#orderTabs .nav-link");
+  function updateOrderDetails(orderId) {
+    const order = ordersData[orderId];
+    if (!order) return;
 
-  tabs.forEach(tab => {
-    tab.addEventListener("click", e => {
+    document.getElementById("detailOrderTitle").textContent = order.title;
+    document.getElementById("detailArea").textContent = order.area;
+    document.getElementById("detailDriver").textContent = order.driver;
+    document.getElementById("detailPrice").textContent = order.price;
+    document.getElementById("detailStatus").textContent = order.status;
+    document.getElementById("detailCreated").textContent = order.created;
+    document.getElementById("detailNotes").textContent = order.notes;
 
-      e.preventDefault();
+    orderDetailsSheet.style.display = "block";
+  }
 
-      tabs.forEach(t => t.classList.remove("active"));
-      tab.classList.add("active");
-
+  navItems.forEach(item => {
+    item.addEventListener("click", () => {
+      openScreen(item.dataset.screen);
     });
   });
 
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      setActiveTab(tab);
+    });
+  });
+
+  orderCards.forEach(card => {
+    card.addEventListener("click", () => {
+      const orderId = card.dataset.orderId;
+      setActiveOrderCard(card);
+      updateOrderDetails(orderId);
+    });
+  });
+
+  if (closeOrderSheetBtn) {
+    closeOrderSheetBtn.addEventListener("click", () => {
+      orderDetailsSheet.style.display = "none";
+      orderCards.forEach(card => card.classList.remove("active"));
+    });
+  }
+
+  openScreen("orders");
+  updateOrderDetails("1045");
 });
