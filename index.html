@@ -391,6 +391,24 @@
       </form>
     </div>
   </div>
+  <div class="panel-lock active" id="panelLock">
+  <div class="panel-lock__card">
+    <h2>Admin Access</h2>
+    <p>أدخل الـ Admin Secret للدخول إلى البانل</p>
+
+    <form id="panelLockForm" class="panel-lock__form">
+      <input
+        type="password"
+        id="panelSecretInput"
+        placeholder="Admin Secret"
+        autocomplete="off"
+      />
+      <button type="submit" class="primary-btn">Unlock</button>
+    </form>
+
+    <p class="panel-lock__error" id="panelLockError"></p>
+  </div>
+</div>
 
   <script src="panel.js"></script>
 </body>
