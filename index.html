@@ -1,397 +1,110 @@
-<!doctype html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jeblimaak Panel</title>
-  <link rel="stylesheet" href="panel.css" />
-</head>
-<body>
-  <div class="layout">
-    <aside class="sidebar">
-      <div class="brand">
-        <div class="brand-mark">🚚</div>
-        <div>
-          <h2>Jeblimaak</h2>
-          <p>Admin Panel</p>
-        </div>
-      </div>
+🚚
+Jeblimaak
+Admin Panel
+Admin Secret
+Secret is required
+Unlock Panel
+☰
+🚚 Jeblimaak
+A
+📦 Orders 💬 Chats 🛵 Drivers ⚙️ Settings
+🔒 Lock
+Orders
+🔄 + Create Order
+🔍
+⚠️
+Pending Price Request
+Order Current Requested Driver
+View Approve Set Price Reject
+All 0 Waiting 0 Active 0 Pending 0 Done 0 Canceled 0
 
-      <nav class="sidebar-nav" id="sidebarNav">
-        <button class="nav-item active" data-view="orders">📦 <span>Orders</span></button>
-        <button class="nav-item" data-view="chats">💬 <span>Chats</span></button>
-        <button class="nav-item" data-view="drivers">🛵 <span>Drivers</span></button>
-        <button class="nav-item" data-view="notifications">🔔 <span>Notifications</span></button>
-        <button class="nav-item" data-view="settings">⚙️ <span>Settings</span></button>
-      </nav>
-    </aside>
+Order ID
+Customer
+Address
+Driver
+Price
+Status
+Updated
+Actions
 
-    <main class="main-shell">
-      <header class="topbar">
-        <div>
-          <h1 id="pageTitle">Orders</h1>
-          <p id="pageSubtitle">إدارة الطلبات والسعر والمحادثات</p>
-        </div>
+Chats
+🔄
+🔍
 
-        <div class="topbar-actions">
-          <div class="search-box">
-            <span>🔎</span>
-            <input id="globalSearch" type="text" placeholder="ابحث برقم الطلب، الاسم، المنطقة، السائق..." />
-          </div>
+💬
+Select a chat to view the conversation
+Drivers
+🔄 + Add Driver
+All Active Off Archived
 
-          <button class="primary-btn" id="openManualOrderBtn">+ Manual Order</button>
-        </div>
-      </header>
+Settings
+⚙️
+System Settings
+Manual Mode Disable automatic driver assignment
+Max Orders Per Driver
+No Reply Minutes
+All Refused Minutes
+Default Order Price (SAR)
+Save Settings
+💰
+Driver Accounts
+Driver
+Delivered
+Total Earned
+Outstanding
+Payable
 
-      <!-- ORDERS VIEW -->
-      <section class="view active" data-view="orders">
-        <section class="stats-grid">
-          <article class="stat-card">
-            <span>All Orders</span>
-            <strong id="kpiAll">0</strong>
-          </article>
-          <article class="stat-card">
-            <span>Waiting</span>
-            <strong id="kpiWaiting">0</strong>
-          </article>
-          <article class="stat-card">
-            <span>Active</span>
-            <strong id="kpiActive">0</strong>
-          </article>
-          <article class="stat-card warning">
-            <span>Pending Price</span>
-            <strong id="kpiPending">0</strong>
-          </article>
-        </section>
+📊
+General Accounts
+0 Total Orders
+0 Active
+0 Completed
+0 Pending Price
+0 SAR Total Revenue
+0 SAR Total Cash
+0 SAR Outstanding
+📅
+Calendar
+‹ ›
 
-        <section class="panel-card">
-          <div class="panel-head">
-            <div class="tabs-row" id="orderTabs">
-              <button class="tab-btn active" data-filter="ALL">All <span class="tab-badge" id="allCount">0</span></button>
-              <button class="tab-btn" data-filter="WAITING">Waiting <span class="tab-badge" id="waitingCount">0</span></button>
-              <button class="tab-btn" data-filter="ACTIVE">Active <span class="tab-badge" id="activeCount">0</span></button>
-              <button class="tab-btn" data-filter="PENDING_PRICE">Pending Price <span class="tab-badge" id="pendingPriceCount">0</span></button>
-              <button class="tab-btn" data-filter="COMPLETED">Completed <span class="tab-badge" id="completedCount">0</span></button>
-              <button class="tab-btn" data-filter="CANCELED">Canceled <span class="tab-badge" id="canceledCount">0</span></button>
-            </div>
+Select a day to see activity
+📦 Orders 💬 Chats 🛵 Drivers ⚙️ Settings
 
-            <div class="panel-head-actions">
-              <button class="soft-btn" id="refreshOrdersBtn">↻ Refresh</button>
-            </div>
-          </div>
+Order Details
+✕
+Order ID
+Status
+Customer
+Phone
+Address
+Driver
+Price
+Pending Price
+Created
+Updated
+Notes
+💬 Open Chat 📍 Open Location Set Price Cancel Order Mark Delivered
 
-          <div class="orders-grid">
-            <div class="orders-main">
-              <div class="table-wrap desktop-only">
-                <table class="orders-table">
-                  <thead>
-                    <tr>
-                      <th>Order</th>
-                      <th>Customer</th>
-                      <th>Area</th>
-                      <th>Driver</th>
-                      <th>Price</th>
-                      <th>Status</th>
-                      <th>Updated</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody id="ordersTbody"></tbody>
-                </table>
-              </div>
+Create Order
+✕
+Order Details (Blob Text)
+Price (SAR)
+Assign Driver (optional)
+            — Auto assign —
+          
+Cancel Create Order
 
-              <div class="mobile-cards mobile-only" id="ordersCards"></div>
+Set Price
+✕
+Order
+New Price (SAR)
+Cancel Set Price
 
-              <div class="empty-state" id="ordersEmpty" hidden>
-                <div class="empty-icon">📭</div>
-                <h3>لا يوجد طلبات</h3>
-                <p>جرّب تغيير الفلتر أو البحث.</p>
-              </div>
-            </div>
+Invite Driver
+✕
+Generate an invite token for a new driver to join via the Telegram bot.
+Expires in (hours)
+Invite Token Copy
+Share this token with the driver. They must send it to the Telegram bot using: /join <token>
+Cancel Generate Token
 
-            <aside class="side-highlight" id="pendingPriceBox">
-              <div class="side-highlight-head">
-                <h3>Pending Price Request</h3>
-                <small id="pendingPriceOrderId">—</small>
-              </div>
-
-              <div class="detail-line"><span>Current Price</span><strong id="pendingCurrentPrice">—</strong></div>
-              <div class="detail-line"><span>Requested Price</span><strong id="pendingRequestedPrice">—</strong></div>
-              <div class="detail-line"><span>Driver</span><strong id="pendingDriverName">—</strong></div>
-
-              <div class="stack-actions">
-                <button class="soft-btn full-btn" id="pendingViewOrderBtn">View Order</button>
-              </div>
-
-              <div class="dual-actions">
-                <button class="success-btn" id="pendingApproveBtn">Approve</button>
-                <button class="soft-btn" id="pendingSetPriceBtn">Set Price</button>
-              </div>
-
-              <div class="stack-actions">
-                <button class="danger-btn full-btn" id="pendingRejectBtn">Reject</button>
-              </div>
-            </aside>
-          </div>
-        </section>
-      </section>
-
-      <!-- CHATS VIEW -->
-      <section class="view" data-view="chats">
-        <section class="panel-card chats-shell">
-          <div class="chat-sidebar">
-            <div class="panel-head compact-head">
-              <h2>Chats</h2>
-              <button class="soft-btn" id="refreshChatsBtn">↻ Refresh</button>
-            </div>
-
-            <div class="chat-search">
-              <input id="chatSearch" type="text" placeholder="ابحث عن طلب أو زبون..." />
-            </div>
-
-            <div class="chat-list" id="chatList"></div>
-          </div>
-
-          <div class="chat-main">
-            <div class="chat-main-empty" id="chatMainEmpty">
-              <div class="empty-icon">💬</div>
-              <h3>اختر محادثة</h3>
-              <p>افتح محادثة من القائمة الجانبية.</p>
-            </div>
-
-            <div class="chat-thread hidden" id="chatThread">
-              <div class="chat-thread-head">
-                <div>
-                  <h3 id="chatThreadTitle">Order #—</h3>
-                  <p id="chatThreadSub">—</p>
-                </div>
-              </div>
-
-              <div class="messages-box" id="messagesBox"></div>
-
-              <form class="chat-compose" id="chatComposeForm">
-                <input id="chatMessageInput" type="text" placeholder="اكتب رسالة..." />
-                <button type="submit" class="primary-btn">Send</button>
-              </form>
-            </div>
-          </div>
-        </section>
-      </section>
-
-      <!-- DRIVERS VIEW -->
-      <section class="view" data-view="drivers">
-        <section class="panel-card">
-          <div class="panel-head">
-            <h2>Drivers</h2>
-            <button class="primary-btn" id="inviteDriverBtn">+ Invite Driver</button>
-          </div>
-
-          <div class="drivers-toolbar">
-            <button class="filter-chip active" data-scope="all">All</button>
-            <button class="filter-chip" data-scope="active">Active</button>
-            <button class="filter-chip" data-scope="off">Off</button>
-            <button class="filter-chip" data-scope="archived">Archived</button>
-          </div>
-
-          <div class="drivers-list" id="driversList"></div>
-        </section>
-      </section>
-
-      <!-- NOTIFICATIONS VIEW -->
-      <section class="view" data-view="notifications">
-        <section class="panel-card">
-          <div class="panel-head">
-            <h2>Notifications</h2>
-            <button class="soft-btn" id="refreshNotificationsBtn">↻ Refresh</button>
-          </div>
-
-          <div class="notifications-list" id="notificationsList"></div>
-        </section>
-      </section>
-
-      <!-- SETTINGS VIEW -->
-      <section class="view" data-view="settings">
-        <div class="settings-grid">
-          <section class="panel-card">
-            <div class="panel-head">
-              <h2>System Settings</h2>
-            </div>
-
-            <form id="settingsForm" class="settings-form">
-              <label class="field-row switch-row">
-                <div>
-                  <strong>Manual Mode</strong>
-                  <small>إذا كان مفعّل، redispatch auto يتوقف</small>
-                </div>
-                <input type="checkbox" id="manualModeInput" />
-              </label>
-
-              <label class="field-row">
-                <span>Max Orders Per Driver</span>
-                <input type="number" id="maxOrdersInput" min="1" />
-              </label>
-
-              <label class="field-row">
-                <span>No Reply Minutes</span>
-                <input type="number" id="noReplyInput" min="1" />
-              </label>
-
-              <label class="field-row">
-                <span>All Refused Minutes</span>
-                <input type="number" id="allRefusedInput" min="1" />
-              </label>
-
-              <label class="field-row">
-                <span>Default Order Price</span>
-                <input type="number" id="defaultPriceInput" min="1" placeholder="70000" />
-              </label>
-
-              <div class="settings-actions">
-                <button type="submit" class="primary-btn">Save Settings</button>
-              </div>
-            </form>
-          </section>
-
-          <section class="panel-card">
-            <div class="panel-head">
-              <h2>Quick Notes</h2>
-            </div>
-
-            <div class="settings-notes">
-              <div class="note-box">
-                <strong>Pending Price</strong>
-                <p>الإدارة تستطيع الموافقة أو الرفض أو تحديد سعر نهائي.</p>
-              </div>
-
-              <div class="note-box">
-                <strong>Manual Order</strong>
-                <p>يمكن إنشاء طلب يدوي مع أو بدون تعيين مباشر لسائق.</p>
-              </div>
-
-              <div class="note-box">
-                <strong>Chats</strong>
-                <p>ترتبط بمسار الطلب وتسمح بإرسال رسالة مباشرة للزبون.</p>
-              </div>
-            </div>
-          </section>
-        </div>
-      </section>
-    </main>
-  </div>
-
-  <!-- MOBILE NAV -->
-  <nav class="bottom-nav" id="bottomNav">
-    <button class="bottom-nav__item active" data-view="orders"><span>📦</span><small>Orders</small></button>
-    <button class="bottom-nav__item" data-view="chats"><span>💬</span><small>Chats</small></button>
-    <button class="bottom-nav__item" data-view="drivers"><span>🛵</span><small>Drivers</small></button>
-    <button class="bottom-nav__item" data-view="notifications"><span>🔔</span><small>Alerts</small></button>
-    <button class="bottom-nav__item" data-view="settings"><span>⚙️</span><small>Settings</small></button>
-  </nav>
-
-  <!-- ORDER DRAWER -->
-  <div class="modal-shell" id="orderDrawer">
-    <div class="modal-backdrop" data-close="orderDrawer"></div>
-    <div class="drawer-card">
-      <div class="drawer-head">
-        <div>
-          <h2 id="detailOrderTitle">Order #—</h2>
-          <p id="detailStatus">—</p>
-        </div>
-        <button class="icon-btn" data-close="orderDrawer">✕</button>
-      </div>
-
-      <div class="drawer-body">
-        <div class="details-list">
-          <div class="detail-line"><span>Area</span><strong id="detailArea">—</strong></div>
-          <div class="detail-line"><span>Customer</span><strong id="detailCustomer">—</strong></div>
-          <div class="detail-line"><span>Phone</span><strong id="detailPhone">—</strong></div>
-          <div class="detail-line"><span>Driver</span><strong id="detailDriver">—</strong></div>
-          <div class="detail-line"><span>Price</span><strong id="detailPrice">—</strong></div>
-          <div class="detail-line"><span>Created</span><strong id="detailCreated">—</strong></div>
-          <div class="detail-line"><span>Updated</span><strong id="detailUpdated">—</strong></div>
-          <div class="detail-line"><span>Notes</span><strong id="detailNotes">—</strong></div>
-        </div>
-
-        <div class="drawer-actions">
-          <button class="soft-btn" id="drawerOpenChatBtn">💬 Open Chat</button>
-          <button class="soft-btn" id="drawerOpenLocationBtn">📍 Open Location</button>
-          <button class="soft-btn" id="drawerUpdatePriceBtn">💰 Update Price</button>
-          <button class="soft-btn" id="drawerReassignBtn">🔄 Reassign Driver</button>
-          <button class="danger-btn" id="drawerCancelOrderBtn">❌ Cancel Order</button>
-          <button class="success-btn" id="drawerDeliveredBtn">✅ Mark Delivered</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MANUAL ORDER MODAL -->
-  <div class="modal-shell" id="manualOrderModal">
-    <div class="modal-backdrop" data-close="manualOrderModal"></div>
-    <div class="modal-card">
-      <div class="drawer-head">
-        <div>
-          <h2>Create Manual Order</h2>
-          <p>أنشئ طلب يدوي من داخل البانل</p>
-        </div>
-        <button class="icon-btn" data-close="manualOrderModal">✕</button>
-      </div>
-
-      <form class="modal-form" id="manualOrderForm">
-        <label>
-          <span>Blob Text</span>
-          <textarea id="manualBlobText" rows="8" placeholder="اسم: علي
-رقم: +96170000000
-عنوان: الحمرا
-طلب: دليفري وجبة
-شوفير: 123456789"></textarea>
-        </label>
-
-        <label>
-          <span>Price (ل.ل)</span>
-          <input type="number" id="manualPriceInput" min="1" placeholder="70000" />
-        </label>
-
-        <label>
-          <span>Assign Driver (اختياري)</span>
-          <select id="manualDriverSelect">
-            <option value="">بدون تعيين</option>
-          </select>
-        </label>
-
-        <div class="modal-actions">
-          <button type="button" class="soft-btn" data-close="manualOrderModal">Cancel</button>
-          <button type="submit" class="primary-btn">Create Order</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- SET PRICE MODAL -->
-  <div class="modal-shell" id="setPriceModal">
-    <div class="modal-backdrop" data-close="setPriceModal"></div>
-    <div class="modal-card small-modal">
-      <div class="drawer-head">
-        <div>
-          <h2>Set Final Price</h2>
-          <p id="setPriceOrderLabel">Order #—</p>
-        </div>
-        <button class="icon-btn" data-close="setPriceModal">✕</button>
-      </div>
-
-      <form class="modal-form" id="setPriceForm">
-        <label>
-          <span>Final Price (ل.ل)</span>
-          <input type="number" id="setPriceInput" min="1" />
-        </label>
-
-        <div class="modal-actions">
-          <button type="button" class="soft-btn" data-close="setPriceModal">Cancel</button>
-          <button type="submit" class="primary-btn">Save Price</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <script src="panel.js"></script>
-</body>
-</html>
