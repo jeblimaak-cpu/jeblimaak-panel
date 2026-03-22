@@ -1,110 +1,550 @@
-🚚
-Jeblimaak
-Admin Panel
-Admin Secret
-Secret is required
-Unlock Panel
-☰
-🚚 Jeblimaak
-A
-📦 Orders 💬 Chats 🛵 Drivers ⚙️ Settings
-🔒 Lock
-Orders
-🔄 + Create Order
-🔍
-⚠️
-Pending Price Request
-Order Current Requested Driver
-View Approve Set Price Reject
-All 0 Waiting 0 Active 0 Pending 0 Done 0 Canceled 0
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jeblimaak — Admin Panel</title>
+  <link rel="stylesheet" href="panel.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
 
-Order ID
-Customer
-Address
-Driver
-Price
-Status
-Updated
-Actions
+  <!-- ===================== LOCK SCREEN ===================== -->
+  <div id="lock-screen" class="lock-screen" aria-modal="true" role="dialog" aria-label="Admin Login">
+    <div class="lock-card">
+      <div class="lock-logo">
+        <span class="lock-logo-icon">🚚</span>
+        <h1 class="lock-logo-name">Jeblimaak</h1>
+        <p class="lock-logo-sub">Admin Panel</p>
+      </div>
+      <div class="lock-form">
+        <label for="admin-secret-input" class="lock-label">Admin Secret</label>
+        <input
+          type="password"
+          id="admin-secret-input"
+          class="lock-input"
+          placeholder="Enter admin secret..."
+          autocomplete="current-password"
+        />
+        <p id="lock-error" class="lock-error hidden">Secret is required</p>
+        <button id="lock-unlock-btn" class="btn btn-primary btn-full">Unlock Panel</button>
+      </div>
+    </div>
+  </div>
 
-Chats
-🔄
-🔍
+  <!-- ===================== APP SHELL ===================== -->
+  <div id="app" class="app hidden">
 
-💬
-Select a chat to view the conversation
-Drivers
-🔄 + Add Driver
-All Active Off Archived
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <div class="topbar-inner">
+        <button id="sidebar-toggle" class="topbar-menu-btn" aria-label="Toggle menu">
+          <span class="icon">☰</span>
+        </button>
+        <div class="topbar-brand">
+          <span class="topbar-logo">🚚</span>
+          <span class="topbar-title">Jeblimaak</span>
+        </div>
+        <div class="topbar-actions">
+          <span class="topbar-badge-dot" id="topbar-pending-dot" title="Pending price requests"></span>
+          <button class="topbar-avatar-btn" aria-label="Admin menu">
+            <span class="avatar avatar-sm">A</span>
+          </button>
+        </div>
+      </div>
+    </header>
 
-Settings
-⚙️
-System Settings
-Manual Mode Disable automatic driver assignment
-Max Orders Per Driver
-No Reply Minutes
-All Refused Minutes
-Default Order Price (SAR)
-Save Settings
-💰
-Driver Accounts
-Driver
-Delivered
-Total Earned
-Outstanding
-Payable
+    <!-- MAIN LAYOUT -->
+    <div class="layout">
 
-📊
-General Accounts
-0 Total Orders
-0 Active
-0 Completed
-0 Pending Price
-0 SAR Total Revenue
-0 SAR Total Cash
-0 SAR Outstanding
-📅
-Calendar
-‹ ›
+      <!-- SIDEBAR (desktop) -->
+      <aside id="sidebar" class="sidebar" role="navigation" aria-label="Main navigation">
+        <nav class="sidebar-nav">
+          <button class="nav-item active" data-page="orders">
+            <span class="nav-icon">📦</span>
+            <span class="nav-label">Orders</span>
+            <span class="nav-badge" id="nav-badge-orders"></span>
+          </button>
+          <button class="nav-item" data-page="chats">
+            <span class="nav-icon">💬</span>
+            <span class="nav-label">Chats</span>
+            <span class="nav-badge" id="nav-badge-chats"></span>
+          </button>
+          <button class="nav-item" data-page="drivers">
+            <span class="nav-icon">🛵</span>
+            <span class="nav-label">Drivers</span>
+          </button>
+          <button class="nav-item" data-page="settings">
+            <span class="nav-icon">⚙️</span>
+            <span class="nav-label">Settings</span>
+          </button>
+        </nav>
+        <div class="sidebar-footer">
+          <button class="sidebar-logout-btn" id="sidebar-logout-btn" title="Lock screen">
+            <span class="nav-icon">🔒</span>
+            <span class="nav-label">Lock</span>
+          </button>
+        </div>
+      </aside>
 
-Select a day to see activity
-📦 Orders 💬 Chats 🛵 Drivers ⚙️ Settings
+      <!-- PAGE VIEWS -->
+      <main class="page-container" id="page-container">
 
-Order Details
-✕
-Order ID
-Status
-Customer
-Phone
-Address
-Driver
-Price
-Pending Price
-Created
-Updated
-Notes
-💬 Open Chat 📍 Open Location Set Price Cancel Order Mark Delivered
+        <!-- ============== ORDERS PAGE ============== -->
+        <section class="page active" id="page-orders">
+          <div class="page-header">
+            <h2 class="page-title">Orders</h2>
+            <div class="page-header-actions">
+              <button class="btn btn-ghost btn-icon" id="orders-refresh-btn" title="Refresh">🔄</button>
+              <button class="btn btn-primary" id="create-order-btn">+ Create Order</button>
+            </div>
+          </div>
 
-Create Order
-✕
-Order Details (Blob Text)
-Price (SAR)
-Assign Driver (optional)
-            — Auto assign —
-          
-Cancel Create Order
+          <div class="search-row">
+            <div class="search-wrap">
+              <span class="search-icon">🔍</span>
+              <input type="search" id="orders-search" class="search-input" placeholder="Search orders..." />
+            </div>
+          </div>
 
-Set Price
-✕
-Order
-New Price (SAR)
-Cancel Set Price
+          <!-- Pending Price Alert Box -->
+          <div id="pending-price-box" class="pending-price-box hidden">
+            <div class="pending-price-box-header">
+              <span class="pending-price-box-icon">⚠️</span>
+              <h3 class="pending-price-box-title">Pending Price Request</h3>
+            </div>
+            <div class="pending-price-box-body">
+              <div class="pending-price-meta">
+                <span class="meta-item"><span class="meta-label">Order</span><span class="meta-val" id="ppb-order-id"></span></span>
+                <span class="meta-item"><span class="meta-label">Current</span><span class="meta-val" id="ppb-current-price"></span></span>
+                <span class="meta-item"><span class="meta-label">Requested</span><span class="meta-val accent" id="ppb-requested-price"></span></span>
+                <span class="meta-item"><span class="meta-label">Driver</span><span class="meta-val" id="ppb-driver"></span></span>
+              </div>
+              <div class="pending-price-actions">
+                <button class="btn btn-sm btn-ghost" id="ppb-view-btn">View</button>
+                <button class="btn btn-sm btn-success" id="ppb-approve-btn">Approve</button>
+                <button class="btn btn-sm btn-secondary" id="ppb-set-price-btn">Set Price</button>
+                <button class="btn btn-sm btn-danger" id="ppb-reject-btn">Reject</button>
+              </div>
+            </div>
+          </div>
 
-Invite Driver
-✕
-Generate an invite token for a new driver to join via the Telegram bot.
-Expires in (hours)
-Invite Token Copy
-Share this token with the driver. They must send it to the Telegram bot using: /join <token>
-Cancel Generate Token
+          <!-- Order Tabs -->
+          <div class="tabs-row" role="tablist" aria-label="Order filters">
+            <button class="tab-btn active" data-tab="all" role="tab" aria-selected="true">
+              All <span class="tab-count" id="tab-count-all">0</span>
+            </button>
+            <button class="tab-btn" data-tab="waiting" role="tab" aria-selected="false">
+              Waiting <span class="tab-count" id="tab-count-waiting">0</span>
+            </button>
+            <button class="tab-btn" data-tab="active" role="tab" aria-selected="false">
+              Active <span class="tab-count" id="tab-count-active">0</span>
+            </button>
+            <button class="tab-btn" data-tab="pending" role="tab" aria-selected="false">
+              Pending <span class="tab-count" id="tab-count-pending">0</span>
+            </button>
+            <button class="tab-btn" data-tab="done" role="tab" aria-selected="false">
+              Done <span class="tab-count" id="tab-count-done">0</span>
+            </button>
+            <button class="tab-btn" data-tab="canceled" role="tab" aria-selected="false">
+              Canceled <span class="tab-count" id="tab-count-canceled">0</span>
+            </button>
+          </div>
 
+          <!-- Orders: card list (mobile) + table (desktop) -->
+          <div class="orders-list" id="orders-list" role="list"></div>
+          <div class="orders-table-wrap" id="orders-table-wrap">
+            <table class="orders-table" id="orders-table">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Address</th>
+                  <th>Driver</th>
+                  <th>Price</th>
+                  <th>Status</th>
+                  <th>Updated</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="orders-table-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ============== CHATS PAGE ============== -->
+        <section class="page" id="page-chats">
+          <div class="page-header">
+            <h2 class="page-title">Chats</h2>
+            <div class="page-header-actions">
+              <button class="btn btn-ghost btn-icon" id="chats-refresh-btn" title="Refresh">🔄</button>
+            </div>
+          </div>
+          <div class="search-row">
+            <div class="search-wrap">
+              <span class="search-icon">🔍</span>
+              <input type="search" id="chats-search" class="search-input" placeholder="Search chats..." />
+            </div>
+          </div>
+          <div class="chats-layout">
+            <!-- Chat List -->
+            <div class="chats-sidebar" id="chats-sidebar">
+              <div class="chats-list" id="chats-list" role="list"></div>
+            </div>
+            <!-- Thread Area -->
+            <div class="chat-thread-area" id="chat-thread-area">
+              <div class="chat-thread-empty" id="chat-thread-empty">
+                <span class="empty-icon">💬</span>
+                <p>Select a chat to view the conversation</p>
+              </div>
+              <div class="chat-thread" id="chat-thread" style="display:none;">
+                <div class="chat-thread-header" id="chat-thread-header"></div>
+                <div class="chat-messages" id="chat-messages"></div>
+                <div class="chat-input-row">
+                  <input type="text" id="chat-input" class="chat-input" placeholder="Type a message..." />
+                  <button class="btn btn-primary btn-icon" id="chat-send-btn" aria-label="Send">➤</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============== DRIVERS PAGE ============== -->
+        <section class="page" id="page-drivers">
+          <div class="page-header">
+            <h2 class="page-title">Drivers</h2>
+            <div class="page-header-actions">
+              <button class="btn btn-ghost btn-icon" id="drivers-refresh-btn" title="Refresh">🔄</button>
+              <button class="btn btn-primary" id="invite-driver-btn">+ Add Driver</button>
+            </div>
+          </div>
+          <div class="filter-chips" id="driver-filter-chips" role="group" aria-label="Driver filters">
+            <button class="chip active" data-filter="all">All</button>
+            <button class="chip" data-filter="active">Active</button>
+            <button class="chip" data-filter="off">Off</button>
+            <button class="chip" data-filter="archived">Archived</button>
+          </div>
+          <div class="drivers-grid" id="drivers-grid"></div>
+        </section>
+
+        <!-- ============== SETTINGS PAGE ============== -->
+        <section class="page" id="page-settings">
+          <div class="page-header">
+            <h2 class="page-title">Settings</h2>
+          </div>
+
+          <div class="settings-grid">
+
+            <!-- A) System Settings -->
+            <div class="settings-card">
+              <div class="settings-card-header">
+                <span class="settings-card-icon">⚙️</span>
+                <h3 class="settings-card-title">System Settings</h3>
+              </div>
+              <div class="settings-body">
+                <div class="setting-row toggle-row">
+                  <div class="setting-info">
+                    <span class="setting-label">Manual Mode</span>
+                    <span class="setting-desc">Disable automatic driver assignment</span>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="setting-manual-mode" />
+                    <span class="toggle-track"></span>
+                  </label>
+                </div>
+                <div class="setting-row">
+                  <label class="setting-label" for="setting-max-orders">Max Orders Per Driver</label>
+                  <input type="number" id="setting-max-orders" class="setting-input" value="5" min="1" max="20" />
+                </div>
+                <div class="setting-row">
+                  <label class="setting-label" for="setting-no-reply">No Reply Minutes</label>
+                  <input type="number" id="setting-no-reply" class="setting-input" value="10" min="1" />
+                </div>
+                <div class="setting-row">
+                  <label class="setting-label" for="setting-all-refused">All Refused Minutes</label>
+                  <input type="number" id="setting-all-refused" class="setting-input" value="15" min="1" />
+                </div>
+                <div class="setting-row">
+                  <label class="setting-label" for="setting-default-price">Default Order Price (SAR)</label>
+                  <input type="number" id="setting-default-price" class="setting-input" value="25" min="0" step="0.5" />
+                </div>
+                <div class="settings-save-row">
+                  <button class="btn btn-primary" id="settings-save-btn">Save Settings</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- B) Driver Accounts -->
+            <div class="settings-card settings-card-full">
+              <div class="settings-card-header">
+                <span class="settings-card-icon">💰</span>
+                <h3 class="settings-card-title">Driver Accounts</h3>
+              </div>
+              <div class="settings-body">
+                <div class="accounting-table-wrap">
+                  <table class="accounting-table" id="driver-accounts-table">
+                    <thead>
+                      <tr>
+                        <th>Driver</th>
+                        <th>Delivered</th>
+                        <th>Total Earned</th>
+                        <th>Outstanding</th>
+                        <th>Payable</th>
+                      </tr>
+                    </thead>
+                    <tbody id="driver-accounts-tbody"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- C) General Accounts -->
+            <div class="settings-card">
+              <div class="settings-card-header">
+                <span class="settings-card-icon">📊</span>
+                <h3 class="settings-card-title">General Accounts</h3>
+              </div>
+              <div class="settings-body">
+                <div class="stats-grid">
+                  <div class="stat-box">
+                    <span class="stat-val" id="stat-total-orders">0</span>
+                    <span class="stat-label">Total Orders</span>
+                  </div>
+                  <div class="stat-box">
+                    <span class="stat-val" id="stat-active-orders">0</span>
+                    <span class="stat-label">Active</span>
+                  </div>
+                  <div class="stat-box">
+                    <span class="stat-val" id="stat-completed-orders">0</span>
+                    <span class="stat-label">Completed</span>
+                  </div>
+                  <div class="stat-box">
+                    <span class="stat-val" id="stat-pending-orders">0</span>
+                    <span class="stat-label">Pending Price</span>
+                  </div>
+                  <div class="stat-box accent-box">
+                    <span class="stat-val" id="stat-revenue">0 SAR</span>
+                    <span class="stat-label">Total Revenue</span>
+                  </div>
+                  <div class="stat-box">
+                    <span class="stat-val" id="stat-cash">0 SAR</span>
+                    <span class="stat-label">Total Cash</span>
+                  </div>
+                  <div class="stat-box">
+                    <span class="stat-val" id="stat-outstanding">0 SAR</span>
+                    <span class="stat-label">Outstanding</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- D) Calendar -->
+            <div class="settings-card">
+              <div class="settings-card-header">
+                <span class="settings-card-icon">📅</span>
+                <h3 class="settings-card-title">Calendar</h3>
+              </div>
+              <div class="settings-body">
+                <div class="calendar-wrap">
+                  <div class="calendar-nav">
+                    <button class="btn btn-ghost btn-icon" id="cal-prev-btn">‹</button>
+                    <span class="calendar-month-label" id="cal-month-label"></span>
+                    <button class="btn btn-ghost btn-icon" id="cal-next-btn">›</button>
+                  </div>
+                  <div class="calendar-grid" id="calendar-grid"></div>
+                  <div class="calendar-day-summary" id="calendar-day-summary">
+                    <p class="calendar-day-summary-text">Select a day to see activity</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <!-- BOTTOM NAV (mobile) -->
+    <nav class="bottom-nav" role="navigation" aria-label="Bottom navigation">
+      <button class="bottom-nav-item active" data-page="orders">
+        <span class="bottom-nav-icon">📦</span>
+        <span class="bottom-nav-label">Orders</span>
+      </button>
+      <button class="bottom-nav-item" data-page="chats">
+        <span class="bottom-nav-icon">💬</span>
+        <span class="bottom-nav-label">Chats</span>
+      </button>
+      <button class="bottom-nav-item" data-page="drivers">
+        <span class="bottom-nav-icon">🛵</span>
+        <span class="bottom-nav-label">Drivers</span>
+      </button>
+      <button class="bottom-nav-item" data-page="settings">
+        <span class="bottom-nav-icon">⚙️</span>
+        <span class="bottom-nav-label">Settings</span>
+      </button>
+    </nav>
+
+  </div>
+  <!-- /app -->
+
+  <!-- ============== ORDER DRAWER ============== -->
+  <div id="order-drawer-overlay" class="overlay hidden" aria-hidden="true"></div>
+  <aside id="order-drawer" class="drawer hidden" role="dialog" aria-modal="true" aria-label="Order Details">
+    <div class="drawer-header">
+      <h3 class="drawer-title">Order Details</h3>
+      <button class="drawer-close-btn" id="order-drawer-close" aria-label="Close drawer">✕</button>
+    </div>
+    <div class="drawer-body" id="order-drawer-body">
+      <div class="drawer-section">
+        <div class="drawer-field-grid">
+          <div class="drawer-field">
+            <span class="drawer-field-label">Order ID</span>
+            <span class="drawer-field-val" id="drw-id"></span>
+          </div>
+          <div class="drawer-field">
+            <span class="drawer-field-label">Status</span>
+            <span class="drawer-field-val" id="drw-status-badge"></span>
+          </div>
+          <div class="drawer-field">
+            <span class="drawer-field-label">Customer</span>
+            <span class="drawer-field-val" id="drw-customer"></span>
+          </div>
+          <div class="drawer-field">
+            <span class="drawer-field-label">Phone</span>
+            <span class="drawer-field-val" id="drw-phone"></span>
+          </div>
+          <div class="drawer-field drawer-field-full">
+            <span class="drawer-field-label">Address</span>
+            <span class="drawer-field-val" id="drw-address"></span>
+          </div>
+          <div class="drawer-field">
+            <span class="drawer-field-label">Driver</span>
+            <span class="drawer-field-val" id="drw-driver"></span>
+          </div>
+          <div class="drawer-field">
+            <span class="drawer-field-label">Price</span>
+            <span class="drawer-field-val" id="drw-price"></span>
+          </div>
+          <div class="drawer-field" id="drw-pending-price-row">
+            <span class="drawer-field-label">Pending Price</span>
+            <span class="drawer-field-val accent" id="drw-pending-price"></span>
+          </div>
+          <div class="drawer-field">
+            <span class="drawer-field-label">Created</span>
+            <span class="drawer-field-val" id="drw-created"></span>
+          </div>
+          <div class="drawer-field">
+            <span class="drawer-field-label">Updated</span>
+            <span class="drawer-field-val" id="drw-updated"></span>
+          </div>
+          <div class="drawer-field drawer-field-full">
+            <span class="drawer-field-label">Notes</span>
+            <span class="drawer-field-val" id="drw-notes"></span>
+          </div>
+        </div>
+      </div>
+      <div class="drawer-actions">
+        <button class="btn btn-ghost" id="drw-open-chat-btn">💬 Open Chat</button>
+        <button class="btn btn-ghost" id="drw-open-location-btn">📍 Open Location</button>
+        <button class="btn btn-secondary" id="drw-set-price-btn">Set Price</button>
+        <button class="btn btn-danger" id="drw-cancel-order-btn">Cancel Order</button>
+        <button class="btn btn-success" id="drw-mark-delivered-btn">Mark Delivered</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ============== CREATE ORDER MODAL ============== -->
+  <div id="create-order-modal-overlay" class="overlay hidden" aria-hidden="true"></div>
+  <div id="create-order-modal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Create Order">
+    <div class="modal-header">
+      <h3 class="modal-title">Create Order</h3>
+      <button class="modal-close-btn" id="create-order-modal-close" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label" for="co-blob-text">Order Details (Blob Text)</label>
+        <textarea id="co-blob-text" class="form-textarea" rows="7" placeholder="Paste the full order text here. Name, address, items, notes..."></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="co-price">Price (SAR)</label>
+          <input type="number" id="co-price" class="form-input" placeholder="0.00" min="0" step="0.5" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="co-driver">Assign Driver (optional)</label>
+          <select id="co-driver" class="form-select">
+            <option value="">— Auto assign —</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" id="create-order-modal-cancel">Cancel</button>
+      <button class="btn btn-primary" id="create-order-submit-btn">Create Order</button>
+    </div>
+  </div>
+
+  <!-- ============== SET PRICE MODAL ============== -->
+  <div id="set-price-modal-overlay" class="overlay hidden" aria-hidden="true"></div>
+  <div id="set-price-modal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Set Price">
+    <div class="modal-header">
+      <h3 class="modal-title">Set Price</h3>
+      <button class="modal-close-btn" id="set-price-modal-close" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label" for="sp-order-id-display">Order</label>
+        <input type="text" id="sp-order-id-display" class="form-input" readonly />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="sp-price">New Price (SAR)</label>
+        <input type="number" id="sp-price" class="form-input" placeholder="0.00" min="0" step="0.5" />
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" id="set-price-modal-cancel">Cancel</button>
+      <button class="btn btn-primary" id="set-price-modal-submit">Set Price</button>
+    </div>
+  </div>
+
+  <!-- ============== INVITE DRIVER MODAL ============== -->
+  <div id="invite-driver-modal-overlay" class="overlay hidden" aria-hidden="true"></div>
+  <div id="invite-driver-modal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Invite Driver">
+    <div class="modal-header">
+      <h3 class="modal-title">Invite Driver</h3>
+      <button class="modal-close-btn" id="invite-driver-modal-close" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="modal-hint">Generate an invite token for a new driver to join via the Telegram bot.</p>
+      <div class="form-group">
+        <label class="form-label" for="invite-expires">Expires in (hours)</label>
+        <input type="number" id="invite-expires" class="form-input" value="24" min="1" max="720" />
+      </div>
+      <div id="invite-token-result" class="hidden">
+        <div class="token-box">
+          <span class="token-label">Invite Token</span>
+          <code class="token-code" id="invite-token-code"></code>
+          <button class="btn btn-sm btn-ghost token-copy-btn" id="invite-token-copy-btn">Copy</button>
+        </div>
+        <p class="invite-helper-text">
+          Share this token with the driver. They must send it to the Telegram bot using:<br/>
+          <code>/join &lt;token&gt;</code>
+        </p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" id="invite-driver-modal-cancel">Cancel</button>
+      <button class="btn btn-primary" id="invite-driver-generate-btn">Generate Token</button>
+    </div>
+  </div>
+
+  <!-- ============== TOAST ============== -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <script src="panel.api.js"></script>
+  <script src="panel.js"></script>
+</body>
+</html>
